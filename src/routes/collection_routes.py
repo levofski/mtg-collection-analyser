@@ -15,21 +15,21 @@ def import_csv_route() -> FlaskResponse:
     """
     if 'file' not in request.files:
         return jsonify({"error": "No file part in the request"}), 400
-    
+
     file: FileStorage = request.files['file'] # type: ignore
-    
+
     if not file.filename: # Handles case where file part exists but no file selected
         return jsonify({"error": "No selected file"}), 400
-    
+
     if file.filename.endswith('.csv'):
         try:
             # file.stream is IO[bytes]
-            message, data, status_code = process_csv_data(file.stream) 
-            
+            message, data, status_code = process_csv_data(file.stream)
+
             response_data = {"message": message}
             if data is not None and status_code == 200:
                 response_data["cards_processed"] = len(data)
-            
+
             if status_code == 200:
                  return jsonify(response_data), status_code
             else: # Error cases from process_csv_data
