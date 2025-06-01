@@ -1,0 +1,23 @@
+{
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": "docs/code-style.md"
+        }
+    ],
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "file": "docs/commit-style.md"
+        }
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "autopep8",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "editor.rulers": [88, 120]
+}

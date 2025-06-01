@@ -1,0 +1,23 @@
+{
+	"name": "Python 3 MTG Collection API",
+	"image": "mcr.microsoft.com/devcontainers/python:0-3.11-bullseye",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/python/bin/python",
+				"python.analysis.typeCheckingMode": "basic",
+				"python.linting.pylintEnabled": true,
+				"python.linting.enabled": true,
+				"editor.formatOnSave": true,
+				"python.formatting.provider": "autopep8"
+			}
+		}
+	},
+	"forwardPorts": [5000],
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+	"remoteUser": "vscode"
+}
