@@ -54,6 +54,10 @@ Initial project setup and implementation of core features.
         *   `PUT /collection/cards/<id>` - Update a specific card.
         *   `DELETE /collection/cards/<id>` - Delete a specific card.
         *   `POST /collection/clear` - Clear the collection.
+*   Created documentation for the Scryfall API (`docs/scryfall-api-reference.md`):
+    *   Documented key endpoints needed for our project
+    *   Outlined best practices for API integration
+    *   Established implementation plan for card data enrichment
 *   Created a `README.md` with project overview and setup instructions.
 *   Created `.vscode/settings.json` for workspace-specific editor settings.
 *   Created this `docs/project-status.md` file.
