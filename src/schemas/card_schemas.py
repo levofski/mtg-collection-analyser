@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, ValidationError, EXCLUDE
+from marshmallow import Schema, fields, ValidationError, EXCLUDE, post_load
 
 class CardImportSchema(Schema):
     """
@@ -27,7 +27,7 @@ class CardImportSchema(Schema):
     Printing_Note = fields.String(data_key="Printing Note", allow_none=True) # CSV header has space
     Tags = fields.String(allow_none=True)
     My_Price = fields.String(data_key="My Price", allow_none=True) # CSV header has space, often a string like "$0.00"
-    Scryfall_ID = fields.String(data_key="Scryfall ID", allow_none=True) # Direct Scryfall ID for precise lookup
+    scryfall_id = fields.String(data_key="Scryfall ID", allow_none=True) # Direct Scryfall ID for precise lookup - lowercase to match Card model
 
     # Example of a custom validator if needed:
     # @validates_schema

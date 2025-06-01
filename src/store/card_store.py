@@ -126,7 +126,7 @@ def enrich_card_with_scryfall_data(card_id: int) -> Tuple[Optional[Card], str]:
             'Name': card.Name,
             'Edition_Code': card.Edition_Code,
             'Card_Number': card.Card_Number,
-            'Scryfall_ID': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
+            'scryfall_id': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
         }
 
         # Fetch card data from Scryfall
@@ -172,7 +172,7 @@ def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
                 'Name': card.Name,
                 'Edition_Code': card.Edition_Code,
                 'Card_Number': card.Card_Number,
-                'Scryfall_ID': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
+                'scryfall_id': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
             }
 
             # Fetch card data from Scryfall

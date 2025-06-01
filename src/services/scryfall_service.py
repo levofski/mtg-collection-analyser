@@ -331,10 +331,10 @@ class ScryfallService:
             raise ValueError("Card must have a name to be enriched")
 
         # First priority: Try by Scryfall ID if available
-        if card.get('Scryfall_ID'):
+        if card.get('scryfall_id'):
             try:
-                logger.info(f"Looking up {card['Name']} by Scryfall ID: {card['Scryfall_ID']}")
-                return self.get_card_by_id(card['Scryfall_ID'])
+                logger.info(f"Looking up {card['Name']} by Scryfall ID: {card['scryfall_id']}")
+                return self.get_card_by_id(card['scryfall_id'])
             except requests.exceptions.RequestException:
                 logger.info(f"Couldn't find card by Scryfall ID, trying by set and number")
 
