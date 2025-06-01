@@ -42,5 +42,8 @@ Initial project setup and planning.
 
 *   Further flesh out API endpoint definitions.
 *   Implement logic to fetch card data from the Scryfall API.
+*   Implement CSV import for card collections:
+    *   Allow users to upload a CSV file to add cards to their collection.
+    *   The expected CSV format is exemplified in `docs/Inventory_example.csv`.
 *   Begin exploring card text analysis techniques.
 
