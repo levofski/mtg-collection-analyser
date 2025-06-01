@@ -3,152 +3,173 @@ import logging
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..database import db
-from ..models.card import Card
+from ..models.card_printing import CardPrinting
+from ..models.card_info import CardInfo
 from ..services.scryfall_service import scryfall
+from ..store.card_info_store import get_card_info_by_id, update_card_info
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
-def add_cards_to_collection(cards: List[Card]) -> None:
+def add_cards_to_collection(printings: List[CardPrinting]) -> None:
     """
-    Adds a list of cards to the database collection.
+    Adds a list of card printings to the database collection.
 
     Args:
-        cards: A list of Card objects to add to the collection.
+        printings: A list of CardPrinting objects to add to the collection.
     """
     try:
-        db.session.add_all(cards)
+        db.session.add_all(printings)
         db.session.commit()
     except SQLAlchemyError as e:
         db.session.rollback()
-        # In a real application, you might want to log this error
+        logger.error(f"Error adding cards to collection: {str(e)}")
         raise e
 
-def get_all_cards() -> List[Card]:
+def get_all_cards() -> List[CardPrinting]:
     """
-    Retrieves all cards currently in the collection.
+    Retrieves all card printings currently in the collection.
 
     Returns:
-        A list of all Card objects in the collection.
+        A list of all CardPrinting objects in the collection.
     """
-    return Card.query.all()
+    return CardPrinting.query.all()
 
-def get_card_by_id(card_id: int) -> Optional[Card]:
+def get_card_by_id(card_id: int) -> Optional[CardPrinting]:
     """
-    Retrieves a specific card by its ID.
+    Retrieves a specific card printing by its ID.
 
     Args:
-        card_id: The ID of the card to retrieve.
+        card_id: The ID of the card printing to retrieve.
 
     Returns:
-        The Card object if found, None otherwise.
+        The CardPrinting object if found, None otherwise.
     """
-    return Card.query.get(card_id)
+    return CardPrinting.query.get(card_id)
 
-def update_card(card_id: int, updated_data: Dict[str, Any]) -> Optional[Card]:
+def update_card(card_id: int, updated_data: Dict[str, Any]) -> Optional[CardPrinting]:
     """
-    Updates a card with new data.
+    Updates a card printing with new data.
 
     Args:
-        card_id: The ID of the card to update.
+        card_id: The ID of the card printing to update.
         updated_data: Dictionary containing the fields to update.
 
     Returns:
-        The updated Card object if found, None otherwise.
+        The updated CardPrinting object if found, None otherwise.
     """
-    card = Card.query.get(card_id)
-    if card:
+    card_printing = CardPrinting.query.get(card_id)
+    if card_printing:
+        # Determine which fields should update the CardInfo vs CardPrinting
+        card_info_fields = ['name', 'oracle_text', 'mana_cost', 'cmc', 'type_line', 'oracle_id']
+        card_info_updates = {}
+
         for key, value in updated_data.items():
-            if hasattr(card, key):
-                setattr(card, key, value)
+            if key.lower() in card_info_fields:
+                # This field should update the CardInfo
+                card_info_updates[key.lower()] = value
+            elif hasattr(card_printing, key):
+                # This field should update the CardPrinting
+                setattr(card_printing, key, value)
+
+        # Update CardInfo if needed
+        if card_info_updates:
+            update_card_info(card_printing.card_info_id, card_info_updates)
+
         try:
             db.session.commit()
         except SQLAlchemyError as e:
             db.session.rollback()
-            # In a real application, you might want to log this error
+            logger.error(f"Error updating card: {str(e)}")
             raise e
-    return card
+    return card_printing
 
 def delete_card(card_id: int) -> bool:
     """
-    Deletes a card from the collection.
+    Deletes a card printing from the collection.
 
     Args:
-        card_id: The ID of the card to delete.
+        card_id: The ID of the card printing to delete.
 
     Returns:
         True if successfully deleted, False if the card was not found.
     """
-    card = Card.query.get(card_id)
-    if card:
+    card_printing = CardPrinting.query.get(card_id)
+    if card_printing:
         try:
-            db.session.delete(card)
+            db.session.delete(card_printing)
             db.session.commit()
             return True
         except SQLAlchemyError as e:
             db.session.rollback()
-            # In a real application, you might want to log this error
+            logger.error(f"Error deleting card: {str(e)}")
             raise e
     return False
 
 def clear_collection() -> None:
     """
-    Clears all cards from the collection.
+    Clears all card printings from the collection.
     Useful for testing or resetting state.
     """
     try:
-        Card.query.delete()
+        CardPrinting.query.delete()
         db.session.commit()
     except SQLAlchemyError as e:
         db.session.rollback()
-        # In a real application, you might want to log this error
+        logger.error(f"Error clearing collection: {str(e)}")
         raise e
 
-def enrich_card_with_scryfall_data(card_id: int) -> Tuple[Optional[Card], str]:
+def enrich_card_with_scryfall_data(card_id: int) -> Tuple[Optional[CardPrinting], str]:
     """
-    Enriches a card with data from the Scryfall API.
+    Enriches a card printing and its associated card info with data from the Scryfall API.
 
     Args:
-        card_id: The ID of the card to enrich.
+        card_id: The ID of the card printing to enrich.
 
     Returns:
         A tuple containing:
-        - The enriched Card object if found, None otherwise.
+        - The enriched CardPrinting object if found, None otherwise.
         - A message describing the result of the operation.
     """
-    card = Card.query.get(card_id)
-    if not card:
+    card_printing = CardPrinting.query.get(card_id)
+    if not card_printing:
         return None, f"Card with ID {card_id} not found."
 
     try:
+        # Get the associated card info
+        card_info = card_printing.card_info
+
         # Convert card to dict for Scryfall service
         card_dict = {
-            'Name': card.Name,
-            'Edition_Code': card.Edition_Code,
-            'Card_Number': card.Card_Number,
-            'scryfall_id': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
+            'Name': card_info.name,
+            'Edition_Code': card_printing.Edition_Code,
+            'Card_Number': card_printing.Card_Number,
+            'scryfall_id': card_printing.scryfall_id  # Include the Scryfall ID if it was imported from CSV
         }
 
         # Fetch card data from Scryfall
         scryfall_data = scryfall.enrich_card(card_dict)
 
-        # Update card with Scryfall data
-        card.scryfall_id = scryfall_data.get('id')
-        card.oracle_text = scryfall_data.get('oracle_text')
-        card.mana_cost = scryfall_data.get('mana_cost')
-        card.cmc = scryfall_data.get('cmc')
-        card.type_line = scryfall_data.get('type_line')
+        # Update card printing with Scryfall data
+        card_printing.scryfall_id = scryfall_data.get('id')
+
+        # Update card info with shared Scryfall data
+        card_info.oracle_text = scryfall_data.get('oracle_text')
+        card_info.mana_cost = scryfall_data.get('mana_cost')
+        card_info.cmc = scryfall_data.get('cmc')
+        card_info.type_line = scryfall_data.get('type_line')
+        card_info.oracle_id = scryfall_data.get('oracle_id')
 
         # Handle image URIs (using the property setter)
-        card.image_uris = scryfall_data.get('image_uris')
+        card_printing.image_uris = scryfall_data.get('image_uris')
 
         # Save to database
         db.session.commit()
-        return card, "Card enriched successfully."
+        return card_printing, "Card enriched successfully."
     except Exception as e:
         db.session.rollback()
         logger.error(f"Error enriching card {card_id}: {str(e)}")
-        return card, f"Error enriching card: {str(e)}"
+        return card_printing, f"Error enriching card: {str(e)}"
 
 def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
     """
@@ -161,45 +182,50 @@ def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
         - Total number of cards processed.
         - List of errors that occurred during enrichment.
     """
-    cards = Card.query.all()
-    total_cards = len(cards)
+    card_printings = CardPrinting.query.all()
+    total_cards = len(card_printings)
     successful = 0
     errors = []
 
-    for card in cards:
+    for card_printing in card_printings:
         try:
+            card_info = card_printing.card_info
+
             # Convert card to dict for Scryfall service
             card_dict = {
-                'Name': card.Name,
-                'Edition_Code': card.Edition_Code,
-                'Card_Number': card.Card_Number,
-                'scryfall_id': card.scryfall_id  # Include the Scryfall ID if it was imported from CSV
+                'Name': card_info.name,
+                'Edition_Code': card_printing.Edition_Code,
+                'Card_Number': card_printing.Card_Number,
+                'scryfall_id': card_printing.scryfall_id
             }
 
             # Fetch card data from Scryfall
             scryfall_data = scryfall.enrich_card(card_dict)
 
-            # Update card with Scryfall data
-            card.scryfall_id = scryfall_data.get('id')
-            card.oracle_text = scryfall_data.get('oracle_text')
-            card.mana_cost = scryfall_data.get('mana_cost')
-            card.cmc = scryfall_data.get('cmc')
-            card.type_line = scryfall_data.get('type_line')
+            # Update card printing with Scryfall data
+            card_printing.scryfall_id = scryfall_data.get('id')
+
+            # Update card info with shared Scryfall data
+            card_info.oracle_text = scryfall_data.get('oracle_text')
+            card_info.mana_cost = scryfall_data.get('mana_cost')
+            card_info.cmc = scryfall_data.get('cmc')
+            card_info.type_line = scryfall_data.get('type_line')
+            card_info.oracle_id = scryfall_data.get('oracle_id')
 
             # Handle image URIs (using the property setter)
-            card.image_uris = scryfall_data.get('image_uris')
+            card_printing.image_uris = scryfall_data.get('image_uris')
 
             # Commit changes immediately after each card
             try:
                 db.session.commit()
                 successful += 1
-                logger.info(f"Successfully enriched card {card.id} ({card.Name})")
+                logger.info(f"Successfully enriched card {card_printing.id} ({card_info.name})")
             except SQLAlchemyError as db_err:
                 db.session.rollback()
-                error_msg = f"Database error when saving card {card.id}: {str(db_err)}"
+                error_msg = f"Database error when saving card {card_printing.id}: {str(db_err)}"
                 errors.append({
-                    "card_id": card.id,
-                    "card_name": card.Name,
+                    "card_id": card_printing.id,
+                    "card_name": card_info.name,
                     "error": error_msg
                 })
                 logger.error(error_msg)
@@ -208,10 +234,10 @@ def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
             # Rollback any pending changes for this card
             db.session.rollback()
             errors.append({
-                "card_id": card.id,
-                "card_name": card.Name,
+                "card_id": card_printing.id,
+                "card_name": card_printing.card_info.name,
                 "error": str(e)
             })
-            logger.error(f"Error enriching card {card.id} ({card.Name}): {str(e)}")
+            logger.error(f"Error enriching card {card_printing.id} ({card_printing.card_info.name}): {str(e)}")
 
     return successful, total_cards, errors

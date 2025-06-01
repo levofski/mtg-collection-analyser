@@ -1,26 +1,34 @@
+"""
+Model for specific printings of cards in the user's collection.
+"""
 from typing import Optional, Dict, Any
 import json
 
 from ..database import db
 
-class Card(db.Model):
-    """Represents a card entry in the user's collection."""
+class CardPrinting(db.Model):
+    """Represents a specific printing of a card in the user's collection."""
 
-    __tablename__ = "cards"
+    __tablename__ = "card_printings"
 
     # Primary key - auto-incrementing ID
     id = db.Column(db.Integer, primary_key=True)
 
-    # Fields from CSV import
-    Name = db.Column(db.String(255), nullable=False)
+    # Foreign key to CardInfo
+    card_info_id = db.Column(db.Integer, db.ForeignKey('card_info.id'), nullable=False)
+    card_info = db.relationship("CardInfo", back_populates="printings")
+
+    # Fields from CSV import related to collection ownership
     Count = db.Column(db.Integer, nullable=False)
     Tradelist_Count = db.Column(db.Integer, nullable=True)
+
+    # Fields specific to a printing
     Edition = db.Column(db.String(255), nullable=True)
     Edition_Code = db.Column(db.String(50), nullable=True)
     Card_Number = db.Column(db.String(50), nullable=True)
     Condition = db.Column(db.String(50), nullable=True)
     Language = db.Column(db.String(50), nullable=True)
-    Foil = db.Column(db.String(50), nullable=True) # Could be bool if normalized
+    Foil = db.Column(db.String(50), nullable=True)  # Could be bool if normalized
     Signed = db.Column(db.String(50), nullable=True)
     Artist_Proof = db.Column(db.String(50), nullable=True)
     Altered_Art = db.Column(db.String(50), nullable=True)
@@ -32,12 +40,8 @@ class Card(db.Model):
     Tags = db.Column(db.String(255), nullable=True)
     My_Price = db.Column(db.String(50), nullable=True)
 
-    # Scryfall data fields
+    # Scryfall data specific to this printing
     scryfall_id = db.Column(db.String(100), nullable=True)
-    oracle_text = db.Column(db.Text, nullable=True)
-    mana_cost = db.Column(db.String(50), nullable=True)
-    cmc = db.Column(db.Float, nullable=True)
-    type_line = db.Column(db.String(255), nullable=True)
     _image_uris = db.Column("image_uris", db.Text, nullable=True)  # Store JSON as text
 
     # Track when each record was created/modified
@@ -60,13 +64,13 @@ class Card(db.Model):
             self._image_uris = None
 
     def __repr__(self) -> str:
-        return f"<Card(id={self.id}, Name='{self.Name}', Edition='{self.Edition}', Count={self.Count})>"
+        return f"<CardPrinting(id={self.id}, Edition='{self.Edition}', Count={self.Count})>"
 
     def to_dict(self) -> Dict[str, Any]:
-        """Converts the Card object to a dictionary for JSON serialization."""
+        """Converts the CardPrinting object to a dictionary for JSON serialization."""
         data = {
             "id": self.id,
-            "Name": self.Name,
+            "card_info_id": self.card_info_id,
             "Count": self.Count,
             "Tradelist_Count": self.Tradelist_Count,
             "Edition": self.Edition,
@@ -85,16 +89,21 @@ class Card(db.Model):
             "Printing_Note": self.Printing_Note,
             "Tags": self.Tags,
             "My_Price": self.My_Price,
+            "scryfall_id": self.scryfall_id,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None
         }
 
-        # Add Scryfall fields if they exist
-        if self.scryfall_id: data["scryfall_id"] = self.scryfall_id
-        if self.oracle_text: data["oracle_text"] = self.oracle_text
-        if self.mana_cost: data["mana_cost"] = self.mana_cost
-        if self.cmc is not None: data["cmc"] = self.cmc
-        if self.type_line: data["type_line"] = self.type_line
-        if self.image_uris: data["image_uris"] = self.image_uris
+        # Add Scryfall printing-specific fields
+        if self.image_uris:
+            data["image_uris"] = self.image_uris
 
-        return {k: v for k, v in data.items() if v is not None} # Return only non-None values
+        # Include card_info data if it's loaded
+        if self.card_info:
+            data["name"] = self.card_info.name
+            data["oracle_text"] = self.card_info.oracle_text
+            data["mana_cost"] = self.card_info.mana_cost
+            data["cmc"] = self.card_info.cmc
+            data["type_line"] = self.card_info.type_line
+
+        return {k: v for k, v in data.items() if v is not None}  # Return only non-None values

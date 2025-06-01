@@ -1,4 +1,3 @@
-\
 from flask import Blueprint, request, jsonify
 from flask.wrappers import Response as FlaskResponse
 from typing import List, Dict, Any
@@ -10,7 +9,9 @@ from ..store.card_store import (
     get_card_by_id, update_card, delete_card,
     enrich_card_with_scryfall_data, enrich_all_cards
 )
-from ..models.card import Card
+from ..models.card_printing import CardPrinting
+from ..models.card_info import CardInfo
+from ..store.card_info_store import get_all_cards_info, get_card_info_by_id
 
 collection_bp = Blueprint('collection_bp', __name__, url_prefix='/collection')
 
@@ -31,14 +32,14 @@ def import_csv_route() -> FlaskResponse:
     if file.filename.endswith('.csv'):
         try:
             # file.stream is IO[bytes]
-            message, valid_cards, validation_errors, status_code = process_csv_data(file.stream)
+            message, valid_printings, validation_errors, status_code = process_csv_data(file.stream)
 
             response_data = {"message": message}
-            if valid_cards is not None:
-                add_cards_to_collection(valid_cards) # Store the valid cards
-                response_data["cards_added_to_collection"] = len(valid_cards)
+            if valid_printings is not None:
+                add_cards_to_collection(valid_printings) # Store the valid cards
+                response_data["cards_added_to_collection"] = len(valid_printings)
                 # To see the actual card data in the response (can be verbose for large files):
-                # response_data["validated_cards_data"] = [card.to_dict() for card in valid_cards]
+                # response_data["validated_cards_data"] = [card.to_dict() for card in valid_printings]
 
             if validation_errors is not None:
                 response_data["validation_errors"] = validation_errors
@@ -57,31 +58,55 @@ def get_collection_cards_route() -> FlaskResponse:
     """
     Retrieves all cards currently in the collection.
     """
-    all_cards: List[Card] = get_all_cards()
-    # Convert Card objects to dictionaries for JSON serialization
-    cards_as_dicts: List[Dict[str, Any]] = [card.to_dict() for card in all_cards]
-    return jsonify({"cards": cards_as_dicts, "count": len(all_cards)}), 200
+    all_printings: List[CardPrinting] = get_all_cards()
+    # Convert CardPrinting objects to dictionaries for JSON serialization
+    printings_as_dicts: List[Dict[str, Any]] = []
+
+    for printing in all_printings:
+        # Create a combined dict with both printing and card info data
+        printing_dict = printing.to_dict()
+        # Add card info data
+        card_info_dict = printing.card_info.to_dict() if printing.card_info else {}
+        # Remove ID fields to avoid confusion
+        if 'id' in card_info_dict:
+            card_info_dict['card_info_id'] = card_info_dict.pop('id')
+
+        # Merge the dicts
+        combined_dict = {**printing_dict, **card_info_dict}
+        printings_as_dicts.append(combined_dict)
+
+    return jsonify({"cards": printings_as_dicts, "count": len(all_printings)}), 200
 
 @collection_bp.route('/cards/<int:card_id>', methods=['GET'])
 def get_card_by_id_route(card_id: int) -> FlaskResponse:
     """
-    Retrieves a specific card by its ID.
+    Retrieves a specific card printing by its ID.
 
     Args:
-        card_id: The ID of the card to retrieve.
+        card_id: The ID of the card printing to retrieve.
     """
-    card = get_card_by_id(card_id)
-    if card:
-        return jsonify(card.to_dict()), 200
+    card_printing = get_card_by_id(card_id)
+    if card_printing:
+        # Create a combined dict with both printing and card info data
+        printing_dict = card_printing.to_dict()
+        # Add card info data
+        card_info_dict = card_printing.card_info.to_dict() if card_printing.card_info else {}
+        # Remove ID fields to avoid confusion
+        if 'id' in card_info_dict:
+            card_info_dict['card_info_id'] = card_info_dict.pop('id')
+
+        # Merge the dicts
+        combined_dict = {**printing_dict, **card_info_dict}
+        return jsonify(combined_dict), 200
     return jsonify({"message": f"Card with ID {card_id} not found."}), 404
 
 @collection_bp.route('/cards/<int:card_id>', methods=['PUT'])
 def update_card_route(card_id: int) -> FlaskResponse:
     """
-    Updates a specific card by its ID.
+    Updates a specific card printing by its ID.
 
     Args:
-        card_id: The ID of the card to update.
+        card_id: The ID of the card printing to update.
     """
     if not request.is_json:
         return jsonify({"message": "Request must be JSON"}), 400
@@ -92,9 +117,20 @@ def update_card_route(card_id: int) -> FlaskResponse:
     updated_card = update_card(card_id, data)
 
     if updated_card:
+        # Create a combined dict with both printing and card info data
+        printing_dict = updated_card.to_dict()
+        # Add card info data
+        card_info_dict = updated_card.card_info.to_dict() if updated_card.card_info else {}
+        # Remove ID fields to avoid confusion
+        if 'id' in card_info_dict:
+            card_info_dict['card_info_id'] = card_info_dict.pop('id')
+
+        # Merge the dicts
+        combined_dict = {**printing_dict, **card_info_dict}
+
         return jsonify({
             "message": f"Card with ID {card_id} updated successfully.",
-            "card": updated_card.to_dict()
+            "card": combined_dict
         }), 200
 
     return jsonify({"message": f"Card with ID {card_id} not found."}), 404
@@ -102,10 +138,10 @@ def update_card_route(card_id: int) -> FlaskResponse:
 @collection_bp.route('/cards/<int:card_id>', methods=['DELETE'])
 def delete_card_route(card_id: int) -> FlaskResponse:
     """
-    Deletes a specific card by its ID.
+    Deletes a specific card printing by its ID.
 
     Args:
-        card_id: The ID of the card to delete.
+        card_id: The ID of the card printing to delete.
     """
     success = delete_card(card_id)
 
@@ -117,7 +153,7 @@ def delete_card_route(card_id: int) -> FlaskResponse:
 @collection_bp.route('', methods=['DELETE'])
 def clear_collection_route() -> FlaskResponse:
     """
-    Clears all cards from the collection.
+    Clears all card printings from the collection.
     Following REST principles, this uses DELETE method on the collection resource.
     """
     clear_collection()
@@ -126,17 +162,28 @@ def clear_collection_route() -> FlaskResponse:
 @collection_bp.route('/cards/<int:card_id>/enrich', methods=['POST'])
 def enrich_card_route(card_id: int) -> FlaskResponse:
     """
-    Enriches a specific card with data from the Scryfall API.
+    Enriches a specific card printing and its card info with data from the Scryfall API.
 
     Args:
-        card_id: The ID of the card to enrich.
+        card_id: The ID of the card printing to enrich.
     """
     enriched_card, message = enrich_card_with_scryfall_data(card_id)
 
     if enriched_card:
+        # Create a combined dict with both printing and card info data
+        printing_dict = enriched_card.to_dict()
+        # Add card info data
+        card_info_dict = enriched_card.card_info.to_dict() if enriched_card.card_info else {}
+        # Remove ID fields to avoid confusion
+        if 'id' in card_info_dict:
+            card_info_dict['card_info_id'] = card_info_dict.pop('id')
+
+        # Merge the dicts
+        combined_dict = {**printing_dict, **card_info_dict}
+
         return jsonify({
             "message": message,
-            "card": enriched_card.to_dict()
+            "card": combined_dict
         }), 200
 
     return jsonify({"message": message}), 404
@@ -159,3 +206,26 @@ def enrich_all_cards_route() -> FlaskResponse:
 
     status_code = 200 if successful == total else 207  # 207 Multi-Status
     return jsonify(response), status_code
+
+@collection_bp.route('/card-infos', methods=['GET'])
+def get_all_card_infos_route() -> FlaskResponse:
+    """
+    Retrieves all unique card infos (oracle cards).
+    """
+    all_card_infos: List[CardInfo] = get_all_cards_info()
+    # Convert CardInfo objects to dictionaries for JSON serialization
+    card_infos_as_dicts: List[Dict[str, Any]] = [card_info.to_dict() for card_info in all_card_infos]
+    return jsonify({"card_infos": card_infos_as_dicts, "count": len(all_card_infos)}), 200
+
+@collection_bp.route('/card-infos/<int:card_info_id>', methods=['GET'])
+def get_card_info_route(card_info_id: int) -> FlaskResponse:
+    """
+    Retrieves a specific card info by its ID.
+
+    Args:
+        card_info_id: The ID of the card info to retrieve.
+    """
+    card_info = get_card_info_by_id(card_info_id)
+    if card_info:
+        return jsonify(card_info.to_dict()), 200
+    return jsonify({"message": f"Card info with ID {card_info_id} not found."}), 404
