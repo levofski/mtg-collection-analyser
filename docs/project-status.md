@@ -16,18 +16,24 @@ Initial project setup and implementation of core features.
 *   **Development Environment:** Docker Dev Container to ensure consistency and manage dependencies.
 *   **Data Storage:** SQLAlchemy ORM with SQLite database.
 *   **Card Data Source (Planned):** Scryfall API (to be accessed via Python `requests` library).
-*   **Text Analysis (Planned):**
-    *   Python libraries like `spaCy` or `NLTK` are being considered for Natural Language Processing (NLP) to analyze card text for abilities, keywords, and mechanics.
-*   **Synergy Modeling (Planned):**
-    *   Python library `NetworkX` is being considered for representing cards and synergies as a graph, allowing for analysis of relationships and potential combos.
-    *   Graph databases (e.g., Neo4j) are a potential future consideration for more complex synergy analysis.
+*   **Text Analysis:**
+    *   Implemented `spaCy` for Natural Language Processing (NLP) to analyze card text for abilities, keywords, mechanics, game zones, and actions.
+    *   Created custom extraction methods for MTG-specific terminology and concepts.
+    *   Developed pattern recognition for complex card interactions and synergy detection.
+*   **Synergy Modeling:**
+    *   Python library `NetworkX` for representing cards and synergies as a graph, allowing for analysis of relationships and potential combos.
+    *   Implemented initial synergy detection based on shared keywords, zones, and actions.
+    *   Graph databases (e.g., Neo4j) are still being considered for more complex synergy analysis in the future.
 *   **Data Validation:** Marshmallow for JSON schema validation of imported card data.
-*   **Initial Dependencies (`requirements.txt`):**
-    *   `Flask`
-    *   `requests`
-    *   `marshmallow`
-    *   `SQLAlchemy`
-    *   `Flask-SQLAlchemy`
+*   **Dependencies (`requirements.txt`):**
+    *   `Flask` - Web framework for building the API
+    *   `requests` - HTTP client for Scryfall API integration
+    *   `marshmallow` - Data serialization and validation
+    *   `SQLAlchemy` - SQL toolkit and ORM
+    *   `Flask-SQLAlchemy` - Flask integration for SQLAlchemy
+    *   `spaCy` - Natural language processing library for text analysis
+    *   `networkx` - Network analysis library for synergy visualization
+    *   `matplotlib` - Visualization library for plotting graphs and charts
 
 ## Setup So Far
 
@@ -101,11 +107,32 @@ Initial project setup and implementation of core features.
 *   Created `.vscode/settings.json` for workspace-specific editor settings.
 *   Created this `docs/project-status.md` file.
 
+## Recent Updates
+
+*   **Implemented Card Text Analysis with NLP:**
+    *   Added spaCy to requirements.txt and set up language model for text processing.
+    *   Implemented `text_analysis.py` service with comprehensive keyword, action, and zone extraction.
+    *   Developed synergy detection algorithms to find relationships between cards based on card text.
+    *   Created demo scripts to showcase text analysis capabilities:
+        *   `standalone_text_analysis.py` for basic NLP abilities demonstration.
+        *   `synergy_detection_demo.py` for finding relationships between cards based on text.
+    *   Added functionality to store extracted keywords and data in the database.
+*   **Updated Database Schema:**
+    *   Split the original Card model into CardInfo and CardPrinting to better separate shared card data from collection-specific data.
+    *   Added new text analysis fields to CardInfo model to store extracted keywords and other data.
+    *   Updated database initialization script to work with new schema.
+*   **Added New API Endpoints:**
+    *   `/collection/card-infos/<id>/analyze` for analyzing individual cards.
+    *   `/collection/card-infos/analyze-all` for batch processing the entire collection.
+
 ## Next Steps (Immediate)
 
-*   Begin exploring card text analysis techniques for extracting keywords and abilities.
 *   Enhance error handling and data validation in the API.
 *   Add more advanced collection management features (filtering, sorting, pagination).
 *   Consider adding authentication/authorization for API access.
-*   Implement initial synergy detection based on card text analysis.
+*   Enhance synergy detection with visualization capabilities:
+    *   Implement NetworkX graph representation of card synergies.
+    *   Add GUI elements to navigate and explore card relationships.
+*   Build automated synergy scoring algorithms.
+*   Add batch processing capabilities for large collections.
 
