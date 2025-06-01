@@ -5,7 +5,10 @@ from typing import List, Dict, Any
 from werkzeug.datastructures import FileStorage
 
 from ..services.csv_importer import process_csv_data
-from ..store.card_store import add_cards_to_collection, get_all_cards, clear_collection
+from ..store.card_store import (
+    add_cards_to_collection, get_all_cards, clear_collection,
+    get_card_by_id, update_card, delete_card
+)
 from ..models.card import Card
 
 collection_bp = Blueprint('collection_bp', __name__, url_prefix='/collection')
@@ -57,6 +60,58 @@ def get_collection_cards_route() -> FlaskResponse:
     # Convert Card objects to dictionaries for JSON serialization
     cards_as_dicts: List[Dict[str, Any]] = [card.to_dict() for card in all_cards]
     return jsonify({"cards": cards_as_dicts, "count": len(all_cards)}), 200
+
+@collection_bp.route('/cards/<int:card_id>', methods=['GET'])
+def get_card_by_id_route(card_id: int) -> FlaskResponse:
+    """
+    Retrieves a specific card by its ID.
+
+    Args:
+        card_id: The ID of the card to retrieve.
+    """
+    card = get_card_by_id(card_id)
+    if card:
+        return jsonify(card.to_dict()), 200
+    return jsonify({"message": f"Card with ID {card_id} not found."}), 404
+
+@collection_bp.route('/cards/<int:card_id>', methods=['PUT'])
+def update_card_route(card_id: int) -> FlaskResponse:
+    """
+    Updates a specific card by its ID.
+
+    Args:
+        card_id: The ID of the card to update.
+    """
+    if not request.is_json:
+        return jsonify({"message": "Request must be JSON"}), 400
+
+    data = request.get_json()
+
+    # Attempt to update the card
+    updated_card = update_card(card_id, data)
+
+    if updated_card:
+        return jsonify({
+            "message": f"Card with ID {card_id} updated successfully.",
+            "card": updated_card.to_dict()
+        }), 200
+
+    return jsonify({"message": f"Card with ID {card_id} not found."}), 404
+
+@collection_bp.route('/cards/<int:card_id>', methods=['DELETE'])
+def delete_card_route(card_id: int) -> FlaskResponse:
+    """
+    Deletes a specific card by its ID.
+
+    Args:
+        card_id: The ID of the card to delete.
+    """
+    success = delete_card(card_id)
+
+    if success:
+        return jsonify({"message": f"Card with ID {card_id} deleted successfully."}), 200
+
+    return jsonify({"message": f"Card with ID {card_id} not found."}), 404
 
 @collection_bp.route('/clear', methods=['POST']) # Using POST for a state-changing operation
 def clear_collection_route() -> FlaskResponse:

@@ -14,6 +14,7 @@ Initial project setup and implementation of core features.
 
 *   **Backend Language/Framework:** Python with Flask.
 *   **Development Environment:** Docker Dev Container to ensure consistency and manage dependencies.
+*   **Data Storage:** SQLAlchemy ORM with SQLite database.
 *   **Card Data Source (Planned):** Scryfall API (to be accessed via Python `requests` library).
 *   **Text Analysis (Planned):**
     *   Python libraries like `spaCy` or `NLTK` are being considered for Natural Language Processing (NLP) to analyze card text for abilities, keywords, and mechanics.
@@ -25,6 +26,8 @@ Initial project setup and implementation of core features.
     *   `Flask`
     *   `requests`
     *   `marshmallow`
+    *   `SQLAlchemy`
+    *   `Flask-SQLAlchemy`
 
 ## Setup So Far
 
@@ -41,18 +44,25 @@ Initial project setup and implementation of core features.
     *   Created a `/collection/import_csv` API endpoint that accepts CSV uploads.
     *   Implemented robust validation using Marshmallow schemas.
     *   Developed detailed error reporting for invalid CSV data.
-*   Created a `Card` class for structured representation of collection items.
-*   Implemented an in-memory store for cards with API endpoints to:
-    *   View all cards in the collection (`GET /collection/cards`).
-    *   Clear the collection (`POST /collection/clear`).
+*   Created a `Card` class as a SQLAlchemy model for structured representation of collection items.
+*   Implemented a SQLite database for persistent data storage:
+    *   Used Flask-SQLAlchemy for ORM capabilities.
+    *   Implemented CRUD operations for cards (Create, Read, Update, Delete).
+    *   Added REST API endpoints for card operations:
+        *   `GET /collection/cards` - View all cards in the collection.
+        *   `GET /collection/cards/<id>` - View a specific card.
+        *   `PUT /collection/cards/<id>` - Update a specific card.
+        *   `DELETE /collection/cards/<id>` - Delete a specific card.
+        *   `POST /collection/clear` - Clear the collection.
 *   Created a `README.md` with project overview and setup instructions.
 *   Created `.vscode/settings.json` for workspace-specific editor settings.
 *   Created this `docs/project-status.md` file.
 
 ## Next Steps (Immediate)
 
-*   Complete integration of the `Card` class with CSV importer and card store.
 *   Implement logic to fetch card data from the Scryfall API to enrich imported cards.
 *   Begin exploring card text analysis techniques.
-*   Consider adding persistent storage (database) to replace the in-memory collection store.
+*   Enhance error handling and data validation.
+*   Add more advanced collection management features (filtering, sorting, etc).
+*   Consider adding authentication/authorization for API access.
 

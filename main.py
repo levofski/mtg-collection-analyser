@@ -1,10 +1,14 @@
 from flask import Flask
 
 from src.routes.collection_routes import collection_bp
+from src.database import init_app as init_db
 
 def create_app():
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
+
+    # Initialize the database
+    init_db(app)
 
     # Register Blueprints
     app.register_blueprint(collection_bp)

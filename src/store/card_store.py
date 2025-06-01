@@ -1,38 +1,100 @@
-from typing import List
+from typing import List, Dict, Any, Optional
+from sqlalchemy.exc import SQLAlchemyError
 
+from ..database import db
 from ..models.card import Card
-
-# In-memory store for the card collection
-# This will be reset if the Flask application restarts.
-_card_collection: List[Card] = []
 
 def add_cards_to_collection(cards: List[Card]) -> None:
     """
-    Adds a list of cards to the in-memory collection.
+    Adds a list of cards to the database collection.
 
     Args:
         cards: A list of Card objects to add to the collection.
     """
-    global _card_collection
-    # For simplicity, we're appending. If duplicates matter based on certain fields,
-    # more complex logic would be needed here (e.g., checking for existing cards
-    # and updating counts or merging data).
-    _card_collection.extend(cards)
+    try:
+        db.session.add_all(cards)
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        # In a real application, you might want to log this error
+        raise e
 
 def get_all_cards() -> List[Card]:
     """
-    Retrieves all cards currently in the in-memory collection.
+    Retrieves all cards currently in the collection.
 
     Returns:
         A list of all Card objects in the collection.
     """
-    global _card_collection
-    return _card_collection
+    return Card.query.all()
+
+def get_card_by_id(card_id: int) -> Optional[Card]:
+    """
+    Retrieves a specific card by its ID.
+
+    Args:
+        card_id: The ID of the card to retrieve.
+
+    Returns:
+        The Card object if found, None otherwise.
+    """
+    return Card.query.get(card_id)
+
+def update_card(card_id: int, updated_data: Dict[str, Any]) -> Optional[Card]:
+    """
+    Updates a card with new data.
+
+    Args:
+        card_id: The ID of the card to update.
+        updated_data: Dictionary containing the fields to update.
+
+    Returns:
+        The updated Card object if found, None otherwise.
+    """
+    card = Card.query.get(card_id)
+    if card:
+        for key, value in updated_data.items():
+            if hasattr(card, key):
+                setattr(card, key, value)
+        try:
+            db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            # In a real application, you might want to log this error
+            raise e
+    return card
+
+def delete_card(card_id: int) -> bool:
+    """
+    Deletes a card from the collection.
+
+    Args:
+        card_id: The ID of the card to delete.
+
+    Returns:
+        True if successfully deleted, False if the card was not found.
+    """
+    card = Card.query.get(card_id)
+    if card:
+        try:
+            db.session.delete(card)
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            # In a real application, you might want to log this error
+            raise e
+    return False
 
 def clear_collection() -> None:
     """
-    Clears all cards from the in-memory collection.
+    Clears all cards from the collection.
     Useful for testing or resetting state.
     """
-    global _card_collection
-    _card_collection = []
+    try:
+        Card.query.delete()
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        # In a real application, you might want to log this error
+        raise e

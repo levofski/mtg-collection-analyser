@@ -1,74 +1,71 @@
-from typing import Optional
+from typing import Optional, Dict, Any
+import json
 
-class Card:
+from ..database import db
+
+class Card(db.Model):
     """Represents a card entry in the user's collection."""
 
-    def __init__(
-        self,
-        Name: str,
-        Count: int,
-        Tradelist_Count: Optional[int] = None,
-        Edition: Optional[str] = None,
-        Edition_Code: Optional[str] = None,
-        Card_Number: Optional[str] = None,
-        Condition: Optional[str] = None,
-        Language: Optional[str] = None,
-        Foil: Optional[str] = None, # Could be bool if normalized
-        Signed: Optional[str] = None,
-        Artist_Proof: Optional[str] = None,
-        Altered_Art: Optional[str] = None,
-        Misprint: Optional[str] = None,
-        Promo: Optional[str] = None,
-        Textless: Optional[str] = None,
-        Printing_Id: Optional[str] = None,
-        Printing_Note: Optional[str] = None,
-        Tags: Optional[str] = None,
-        My_Price: Optional[str] = None,
-        # Add other fields from Scryfall later as needed
-        scryfall_id: Optional[str] = None, # Example for future Scryfall data
-        oracle_text: Optional[str] = None, # Example for future Scryfall data
-        mana_cost: Optional[str] = None,   # Example for future Scryfall data
-        cmc: Optional[float] = None,       # Example for future Scryfall data
-        type_line: Optional[str] = None,   # Example for future Scryfall data
-        image_uris: Optional[dict] = None # Example for future Scryfall data
-    ):
-        self.Name: str = Name
-        self.Count: int = Count
-        self.Tradelist_Count: Optional[int] = Tradelist_Count
-        self.Edition: Optional[str] = Edition
-        self.Edition_Code: Optional[str] = Edition_Code
-        self.Card_Number: Optional[str] = Card_Number
-        self.Condition: Optional[str] = Condition
-        self.Language: Optional[str] = Language
-        self.Foil: Optional[str] = Foil
-        self.Signed: Optional[str] = Signed
-        self.Artist_Proof: Optional[str] = Artist_Proof
-        self.Altered_Art: Optional[str] = Altered_Art
-        self.Misprint: Optional[str] = Misprint
-        self.Promo: Optional[str] = Promo
-        self.Textless: Optional[str] = Textless
-        self.Printing_Id: Optional[str] = Printing_Id
-        self.Printing_Note: Optional[str] = Printing_Note
-        self.Tags: Optional[str] = Tags
-        self.My_Price: Optional[str] = My_Price
+    __tablename__ = "cards"
 
-        # Future Scryfall fields
-        self.scryfall_id: Optional[str] = scryfall_id
-        self.oracle_text: Optional[str] = oracle_text
-        self.mana_cost: Optional[str] = mana_cost
-        self.cmc: Optional[float] = cmc
-        self.type_line: Optional[str] = type_line
-        self.image_uris: Optional[dict] = image_uris
+    # Primary key - auto-incrementing ID
+    id = db.Column(db.Integer, primary_key=True)
+
+    # Fields from CSV import
+    Name = db.Column(db.String(255), nullable=False)
+    Count = db.Column(db.Integer, nullable=False)
+    Tradelist_Count = db.Column(db.Integer, nullable=True)
+    Edition = db.Column(db.String(255), nullable=True)
+    Edition_Code = db.Column(db.String(50), nullable=True)
+    Card_Number = db.Column(db.String(50), nullable=True)
+    Condition = db.Column(db.String(50), nullable=True)
+    Language = db.Column(db.String(50), nullable=True)
+    Foil = db.Column(db.String(50), nullable=True) # Could be bool if normalized
+    Signed = db.Column(db.String(50), nullable=True)
+    Artist_Proof = db.Column(db.String(50), nullable=True)
+    Altered_Art = db.Column(db.String(50), nullable=True)
+    Misprint = db.Column(db.String(50), nullable=True)
+    Promo = db.Column(db.String(50), nullable=True)
+    Textless = db.Column(db.String(50), nullable=True)
+    Printing_Id = db.Column(db.String(50), nullable=True)
+    Printing_Note = db.Column(db.String(255), nullable=True)
+    Tags = db.Column(db.String(255), nullable=True)
+    My_Price = db.Column(db.String(50), nullable=True)
+
+    # Scryfall data fields
+    scryfall_id = db.Column(db.String(100), nullable=True)
+    oracle_text = db.Column(db.Text, nullable=True)
+    mana_cost = db.Column(db.String(50), nullable=True)
+    cmc = db.Column(db.Float, nullable=True)
+    type_line = db.Column(db.String(255), nullable=True)
+    _image_uris = db.Column("image_uris", db.Text, nullable=True)  # Store JSON as text
+
+    # Track when each record was created/modified
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
+
+    @property
+    def image_uris(self) -> Optional[Dict[str, Any]]:
+        """Convert stored JSON string to dictionary."""
+        if self._image_uris:
+            return json.loads(self._image_uris)
+        return None
+
+    @image_uris.setter
+    def image_uris(self, value: Optional[Dict[str, Any]]) -> None:
+        """Convert dictionary to JSON string for storage."""
+        if value is not None:
+            self._image_uris = json.dumps(value)
+        else:
+            self._image_uris = None
 
     def __repr__(self) -> str:
-        return f"<Card(Name='{self.Name}', Edition='{self.Edition}', Count={self.Count})>"
+        return f"<Card(id={self.id}, Name='{self.Name}', Edition='{self.Edition}', Count={self.Count})>"
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Any]:
         """Converts the Card object to a dictionary for JSON serialization."""
-        # Basic implementation, can be expanded based on needs
-        # Excludes Scryfall fields for now if they are None, to keep it clean
-        # until those are actively used.
         data = {
+            "id": self.id,
             "Name": self.Name,
             "Count": self.Count,
             "Tradelist_Count": self.Tradelist_Count,
@@ -87,8 +84,11 @@ class Card:
             "Printing_Id": self.Printing_Id,
             "Printing_Note": self.Printing_Note,
             "Tags": self.Tags,
-            "My_Price": self.My_Price
+            "My_Price": self.My_Price,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None
         }
+
         # Add Scryfall fields if they exist
         if self.scryfall_id: data["scryfall_id"] = self.scryfall_id
         if self.oracle_text: data["oracle_text"] = self.oracle_text
