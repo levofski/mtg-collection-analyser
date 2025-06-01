@@ -19,5 +19,21 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.python"
     },
-    "editor.rulers": [88, 120]
+    "editor.rulers": [
+        88,
+        120
+    ],
+    "dbcode.connections": [
+        {
+            "connectionId": "r1dfoazHoK8Zu4f83WDGB",
+            "name": "MTG Collection",
+            "driver": "sqlite",
+            "socket": "mtg-collection-analyser/instance/mtg_collection.db",
+            "readOnly": false,
+            "driverOptions": {
+                "extensions": []
+            },
+            "connectionType": "socket"
+        }
+    ]
 }
