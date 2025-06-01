@@ -41,4 +41,19 @@ A Python-based API for managing and analyzing a "Magic: The Gathering" card coll
 
 ## API Endpoints
 
-(To be documented as they are developed.)
+### Collection Management
+
+- **GET /collection/cards** - Get all cards in the collection
+- **GET /collection/cards/{id}** - Get a specific card by ID
+- **PUT /collection/cards/{id}** - Update a specific card
+- **DELETE /collection/cards/{id}** - Delete a specific card
+- **POST /collection/clear** - Clear the entire collection
+
+### CSV Import
+
+- **POST /collection/import_csv** - Import cards from a CSV file
+
+### Scryfall Integration
+
+- **POST /collection/cards/{id}/enrich** - Enrich a specific card with Scryfall data
+- **POST /collection/enrich-all** - Enrich all cards in the collection with Scryfall data

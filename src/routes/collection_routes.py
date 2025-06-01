@@ -7,7 +7,8 @@ from werkzeug.datastructures import FileStorage
 from ..services.csv_importer import process_csv_data
 from ..store.card_store import (
     add_cards_to_collection, get_all_cards, clear_collection,
-    get_card_by_id, update_card, delete_card
+    get_card_by_id, update_card, delete_card,
+    enrich_card_with_scryfall_data, enrich_all_cards
 )
 from ..models.card import Card
 
@@ -120,3 +121,40 @@ def clear_collection_route() -> FlaskResponse:
     """
     clear_collection()
     return jsonify({"message": "Collection cleared successfully."}), 200
+
+@collection_bp.route('/cards/<int:card_id>/enrich', methods=['POST'])
+def enrich_card_route(card_id: int) -> FlaskResponse:
+    """
+    Enriches a specific card with data from the Scryfall API.
+
+    Args:
+        card_id: The ID of the card to enrich.
+    """
+    enriched_card, message = enrich_card_with_scryfall_data(card_id)
+
+    if enriched_card:
+        return jsonify({
+            "message": message,
+            "card": enriched_card.to_dict()
+        }), 200
+
+    return jsonify({"message": message}), 404
+
+@collection_bp.route('/enrich-all', methods=['POST'])
+def enrich_all_cards_route() -> FlaskResponse:
+    """
+    Enriches all cards in the collection with data from the Scryfall API.
+    """
+    successful, total, errors = enrich_all_cards()
+
+    response = {
+        "message": f"Enriched {successful} out of {total} cards.",
+        "success_count": successful,
+        "total_count": total
+    }
+
+    if errors:
+        response["errors"] = errors
+
+    status_code = 200 if successful == total else 207  # 207 Multi-Status
+    return jsonify(response), status_code

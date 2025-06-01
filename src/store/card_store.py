@@ -1,8 +1,13 @@
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
+import logging
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..database import db
 from ..models.card import Card
+from ..services.scryfall_service import scryfall
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 def add_cards_to_collection(cards: List[Card]) -> None:
     """
@@ -98,3 +103,104 @@ def clear_collection() -> None:
         db.session.rollback()
         # In a real application, you might want to log this error
         raise e
+
+def enrich_card_with_scryfall_data(card_id: int) -> Tuple[Optional[Card], str]:
+    """
+    Enriches a card with data from the Scryfall API.
+
+    Args:
+        card_id: The ID of the card to enrich.
+
+    Returns:
+        A tuple containing:
+        - The enriched Card object if found, None otherwise.
+        - A message describing the result of the operation.
+    """
+    card = Card.query.get(card_id)
+    if not card:
+        return None, f"Card with ID {card_id} not found."
+
+    try:
+        # Convert card to dict for Scryfall service
+        card_dict = {
+            'Name': card.Name,
+            'Edition_Code': card.Edition_Code,
+            'Card_Number': card.Card_Number
+        }
+
+        # Fetch card data from Scryfall
+        scryfall_data = scryfall.enrich_card(card_dict)
+
+        # Update card with Scryfall data
+        card.scryfall_id = scryfall_data.get('id')
+        card.oracle_text = scryfall_data.get('oracle_text')
+        card.mana_cost = scryfall_data.get('mana_cost')
+        card.cmc = scryfall_data.get('cmc')
+        card.type_line = scryfall_data.get('type_line')
+
+        # Handle image URIs (using the property setter)
+        card.image_uris = scryfall_data.get('image_uris')
+
+        # Save to database
+        db.session.commit()
+        return card, "Card enriched successfully."
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error enriching card {card_id}: {str(e)}")
+        return card, f"Error enriching card: {str(e)}"
+
+def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
+    """
+    Enriches all cards in the collection with data from the Scryfall API.
+
+    Returns:
+        A tuple containing:
+        - Number of successfully enriched cards.
+        - Total number of cards processed.
+        - List of errors that occurred during enrichment.
+    """
+    cards = Card.query.all()
+    total_cards = len(cards)
+    successful = 0
+    errors = []
+
+    for card in cards:
+        try:
+            # Convert card to dict for Scryfall service
+            card_dict = {
+                'Name': card.Name,
+                'Edition_Code': card.Edition_Code,
+                'Card_Number': card.Card_Number
+            }
+
+            # Fetch card data from Scryfall
+            scryfall_data = scryfall.enrich_card(card_dict)
+
+            # Update card with Scryfall data
+            card.scryfall_id = scryfall_data.get('id')
+            card.oracle_text = scryfall_data.get('oracle_text')
+            card.mana_cost = scryfall_data.get('mana_cost')
+            card.cmc = scryfall_data.get('cmc')
+            card.type_line = scryfall_data.get('type_line')
+
+            # Handle image URIs (using the property setter)
+            card.image_uris = scryfall_data.get('image_uris')
+
+            successful += 1
+        except Exception as e:
+            errors.append({
+                "card_id": card.id,
+                "card_name": card.Name,
+                "error": str(e)
+            })
+            logger.error(f"Error enriching card {card.id} ({card.Name}): {str(e)}")
+
+    # Save all changes
+    try:
+        db.session.commit()
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        errors.append({"error": f"Database error: {str(e)}"})
+        logger.error(f"Database error when enriching cards: {str(e)}")
+
+    return successful, total_cards, errors
