@@ -1,10 +1,12 @@
 \
 from flask import Blueprint, request, jsonify
 from flask.wrappers import Response as FlaskResponse
+from typing import List, Dict, Any
 from werkzeug.datastructures import FileStorage
 
 from ..services.csv_importer import process_csv_data
 from ..store.card_store import add_cards_to_collection, get_all_cards, clear_collection
+from ..models.card import Card
 
 collection_bp = Blueprint('collection_bp', __name__, url_prefix='/collection')
 
@@ -32,7 +34,7 @@ def import_csv_route() -> FlaskResponse:
                 add_cards_to_collection(valid_cards) # Store the valid cards
                 response_data["cards_added_to_collection"] = len(valid_cards)
                 # To see the actual card data in the response (can be verbose for large files):
-                # response_data["validated_cards_data"] = valid_cards
+                # response_data["validated_cards_data"] = [card.to_dict() for card in valid_cards]
 
             if validation_errors is not None:
                 response_data["validation_errors"] = validation_errors
@@ -51,8 +53,10 @@ def get_collection_cards_route() -> FlaskResponse:
     """
     Retrieves all cards currently in the collection.
     """
-    all_cards = get_all_cards()
-    return jsonify({"cards": all_cards, "count": len(all_cards)}), 200
+    all_cards: List[Card] = get_all_cards()
+    # Convert Card objects to dictionaries for JSON serialization
+    cards_as_dicts: List[Dict[str, Any]] = [card.to_dict() for card in all_cards]
+    return jsonify({"cards": cards_as_dicts, "count": len(all_cards)}), 200
 
 @collection_bp.route('/clear', methods=['POST']) # Using POST for a state-changing operation
 def clear_collection_route() -> FlaskResponse:

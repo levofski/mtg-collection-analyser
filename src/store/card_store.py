@@ -1,15 +1,17 @@
-from typing import List, Dict, Any
+from typing import List
+
+from ..models.card import Card
 
 # In-memory store for the card collection
 # This will be reset if the Flask application restarts.
-_card_collection: List[Dict[str, Any]] = []
+_card_collection: List[Card] = []
 
-def add_cards_to_collection(cards: List[Dict[str, Any]]) -> None:
+def add_cards_to_collection(cards: List[Card]) -> None:
     """
     Adds a list of cards to the in-memory collection.
 
     Args:
-        cards: A list of dictionaries, where each dictionary represents a card.
+        cards: A list of Card objects to add to the collection.
     """
     global _card_collection
     # For simplicity, we're appending. If duplicates matter based on certain fields,
@@ -17,12 +19,12 @@ def add_cards_to_collection(cards: List[Dict[str, Any]]) -> None:
     # and updating counts or merging data).
     _card_collection.extend(cards)
 
-def get_all_cards() -> List[Dict[str, Any]]:
+def get_all_cards() -> List[Card]:
     """
     Retrieves all cards currently in the in-memory collection.
 
     Returns:
-        A list of all cards in the collection.
+        A list of all Card objects in the collection.
     """
     global _card_collection
     return _card_collection

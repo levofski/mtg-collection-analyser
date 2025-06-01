@@ -5,8 +5,9 @@ from typing import List, Dict, Tuple, Any, Optional, IO
 
 from marshmallow import ValidationError
 from ..schemas.card_schemas import CardImportSchema
+from ..models.card import Card
 
-def process_csv_data(file_stream: IO[bytes]) -> Tuple[str, Optional[List[Dict[str, Any]]], Optional[List[Dict[str, Any]]], int]:
+def process_csv_data(file_stream: IO[bytes]) -> Tuple[str, Optional[List[Card]], Optional[List[Dict[str, Any]]], int]:
     """
     Processes the CSV data from a byte file stream, validates it, and collects errors.
 
@@ -16,12 +17,12 @@ def process_csv_data(file_stream: IO[bytes]) -> Tuple[str, Optional[List[Dict[st
     Returns:
         A tuple containing:
             - message (str): A summary message.
-            - valid_cards (Optional[List[Dict[str, Any]]]): List of successfully validated cards.
+            - valid_cards (Optional[List[Card]]): List of successfully validated cards as Card objects.
             - validation_errors (Optional[List[Dict[str, Any]]]): List of validation errors.
             - status_code (int): HTTP status code.
     """
     schema = CardImportSchema()
-    valid_cards: List[Dict[str, Any]] = []
+    valid_cards: List[Card] = []
     validation_errors: List[Dict[str, Any]] = []
 
     try:
@@ -40,10 +41,12 @@ def process_csv_data(file_stream: IO[bytes]) -> Tuple[str, Optional[List[Dict[st
             try:
                 # Validate and deserialize data
                 loaded_data = schema.load(row)
-                valid_cards.append(loaded_data)
+                # Convert validated dictionary to Card object
+                card_obj = Card(**loaded_data)
+                valid_cards.append(card_obj)
             except ValidationError as err:
                 validation_errors.append({"row": row_number, "errors": err.messages, "data": row})
-            except Exception as e: # Catch other unexpected errors during schema loading for a row
+            except Exception as e: # Catch other unexpected errors during schema loading or Card creation
                 validation_errors.append({"row": row_number, "errors": {"_unexpected": [str(e)]}, "data": row})
 
 
