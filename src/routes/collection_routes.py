@@ -14,29 +14,34 @@ def import_csv_route() -> FlaskResponse:
     The CSV file is expected to be in the request's files.
     """
     if 'file' not in request.files:
-        return jsonify({"error": "No file part in the request"}), 400
+        return jsonify({"message": "No file part in the request", "validation_errors": []}), 400
 
     file: FileStorage = request.files['file'] # type: ignore
 
     if not file.filename: # Handles case where file part exists but no file selected
-        return jsonify({"error": "No selected file"}), 400
+        return jsonify({"message": "No selected file", "validation_errors": []}), 400
 
     if file.filename.endswith('.csv'):
         try:
             # file.stream is IO[bytes]
-            message, data, status_code = process_csv_data(file.stream)
+            message, valid_cards, validation_errors, status_code = process_csv_data(file.stream)
 
             response_data = {"message": message}
-            if data is not None and status_code == 200:
-                response_data["cards_processed"] = len(data)
+            if valid_cards is not None:
+                # For now, we just report the count.
+                # Later, this is where valid_cards would be passed to a storage service.
+                response_data["cards_successfully_validated"] = len(valid_cards)
+                # To see the actual card data in the response (can be verbose for large files):
+                # response_data["validated_cards_data"] = valid_cards
 
-            if status_code == 200:
-                 return jsonify(response_data), status_code
-            else: # Error cases from process_csv_data
-                return jsonify({"error": message}), status_code
+            if validation_errors is not None:
+                response_data["validation_errors"] = validation_errors
+
+            return jsonify(response_data), status_code
 
         except Exception as e:
             # General exception handling for unexpected errors in the route
-            return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
+            # This should ideally be rare if process_csv_data handles its errors well.
+            return jsonify({"message": f"An unexpected error occurred: {str(e)}", "validation_errors": []}), 500
     else:
-        return jsonify({"error": "Invalid file type, please upload a CSV file."}), 400
+        return jsonify({"message": "Invalid file type, please upload a CSV file.", "validation_errors": []}), 400
