@@ -8,7 +8,7 @@ The goal of this project is to create a Python-based API to manage a "Magic: The
 
 ## Current Phase
 
-Initial project setup and planning.
+Initial project setup and implementation of core features.
 
 ## Key Decisions & Technologies Chosen
 
@@ -20,9 +20,11 @@ Initial project setup and planning.
 *   **Synergy Modeling (Planned):**
     *   Python library `NetworkX` is being considered for representing cards and synergies as a graph, allowing for analysis of relationships and potential combos.
     *   Graph databases (e.g., Neo4j) are a potential future consideration for more complex synergy analysis.
+*   **Data Validation:** Marshmallow for JSON schema validation of imported card data.
 *   **Initial Dependencies (`requirements.txt`):**
     *   `Flask`
     *   `requests`
+    *   `marshmallow`
 
 ## Setup So Far
 
@@ -33,17 +35,24 @@ Initial project setup and planning.
     *   Port 5000 forwarded for the Flask application.
     *   `postCreateCommand` to install `requirements.txt`.
 *   Created `requirements.txt` with initial dependencies.
-*   Created a basic `main.py` with a "Hello World" Flask app.
+*   Created a basic `main.py` with a "Hello World" Flask app using the application factory pattern.
+*   Created a structured project layout with separate directories for routes, services, models, schemas, and data store.
+*   Implemented CSV import functionality for card collections:
+    *   Created a `/collection/import_csv` API endpoint that accepts CSV uploads.
+    *   Implemented robust validation using Marshmallow schemas.
+    *   Developed detailed error reporting for invalid CSV data.
+*   Created a `Card` class for structured representation of collection items.
+*   Implemented an in-memory store for cards with API endpoints to:
+    *   View all cards in the collection (`GET /collection/cards`).
+    *   Clear the collection (`POST /collection/clear`).
 *   Created a `README.md` with project overview and setup instructions.
 *   Created `.vscode/settings.json` for workspace-specific editor settings.
 *   Created this `docs/project-status.md` file.
 
 ## Next Steps (Immediate)
 
-*   Further flesh out API endpoint definitions.
-*   Implement logic to fetch card data from the Scryfall API.
-*   Implement CSV import for card collections:
-    *   Allow users to upload a CSV file to add cards to their collection.
-    *   The expected CSV format is exemplified in `docs/Inventory_example.csv`.
+*   Complete integration of the `Card` class with CSV importer and card store.
+*   Implement logic to fetch card data from the Scryfall API to enrich imported cards.
 *   Begin exploring card text analysis techniques.
+*   Consider adding persistent storage (database) to replace the in-memory collection store.
 
