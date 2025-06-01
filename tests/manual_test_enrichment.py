@@ -30,15 +30,15 @@ def create_sample_csv() -> io.StringIO:
         "Name", "Count", "Tradelist Count", "Edition", "Edition Code",
         "Card Number", "Condition", "Language", "Foil", "Signed",
         "Artist Proof", "Altered Art", "Misprint", "Promo", "Textless",
-        "My Price"
+        "My Price", "Scryfall ID"
     ])
 
-    # Write sample cards
+    # Write sample cards with Scryfall IDs
     cards = [
-        ["Lightning Bolt", "4", "", "Masters 25", "a25", "141", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", ""],
-        ["Black Lotus", "1", "", "Alpha", "lea", "232", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", ""],
-        ["Birds of Paradise", "2", "", "Ravnica Allegiance: Guild Kits", "gk2", "82", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", ""],
-        ["Sol Ring", "3", "", "Commander 2021", "c21", "263", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", ""]
+        ["Lightning Bolt", "4", "", "Masters 25", "a25", "141", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", "", "fee393c7-1868-4d11-93c3-3d143e0c8dd9"],
+        ["Black Lotus", "1", "", "Alpha", "lea", "232", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", "", "bd8fa327-dd41-4737-8f19-2cf5eb1f7cdd"],
+        ["Birds of Paradise", "2", "", "Ravnica Allegiance: Guild Kits", "gk2", "82", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", "", "f5e1c553-9fc0-475b-9298-3db1f67be1a1"],
+        ["Sol Ring", "3", "", "Commander 2021", "c21", "263", "NM", "EN", "No", "No", "No", "No", "No", "No", "No", "", "0afa0e33-4804-430a-b799-952ce59200d6"]
     ]
 
     for card in cards:

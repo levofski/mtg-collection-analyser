@@ -1,6 +1,10 @@
 # Scryfall Integration
 
-This document provides information on how the Scryfall API integration works in the MTG Collection Analyser.
+This document provides information on how the Scryfall API integratio### Lookup Strategy**: Tries to find the most precise match for a card:
+  1. First by Scryfall ID (preferred method)
+  2. Then by set code + collector number
+  3. Then by exact name + set code
+  4. Finally by name onlyrks in the MTG Collection Analyser.
 
 ## Overview
 

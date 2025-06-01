@@ -274,6 +274,22 @@ class ScryfallService:
         endpoint = f"/cards/{set_code}/{collector_number}"
         return self._make_request("GET", endpoint)
 
+    def get_card_by_id(self, scryfall_id: str) -> Dict[str, Any]:
+        """
+        Fetch card data by its Scryfall ID.
+
+        Args:
+            scryfall_id: The Scryfall ID of the card
+
+        Returns:
+            Card data as a dictionary
+
+        Raises:
+            requests.exceptions.RequestException: If the API request fails
+        """
+        endpoint = f"/cards/{scryfall_id}"
+        return self._make_request("GET", endpoint)
+
     def search_cards(self, query: str, page: int = 1) -> Dict[str, Any]:
         """
         Search for cards using Scryfall's search syntax.
@@ -296,12 +312,13 @@ class ScryfallService:
         Enrich a card with data from Scryfall based on its identifiers.
 
         This method tries to find the most precise match for a card:
-        1. First by set code + collector number
-        2. Then by exact name + set code
-        3. Finally by name only
+        1. First by Scryfall ID if available
+        2. Then by set code + collector number
+        3. Then by exact name + set code
+        4. Finally by name only
 
         Args:
-            card: Card data dictionary with at least a name and optionally set and collector number
+            card: Card data dictionary with at least a name and optionally Scryfall ID, set and collector number
 
         Returns:
             Enriched card data
@@ -313,9 +330,18 @@ class ScryfallService:
         if not card.get('Name'):
             raise ValueError("Card must have a name to be enriched")
 
-        # Try by set code and collector number if available
+        # First priority: Try by Scryfall ID if available
+        if card.get('Scryfall_ID'):
+            try:
+                logger.info(f"Looking up {card['Name']} by Scryfall ID: {card['Scryfall_ID']}")
+                return self.get_card_by_id(card['Scryfall_ID'])
+            except requests.exceptions.RequestException:
+                logger.info(f"Couldn't find card by Scryfall ID, trying by set and number")
+
+        # Second priority: Try by set code and collector number if available
         if card.get('Edition_Code') and card.get('Card_Number'):
             try:
+                logger.info(f"Looking up {card['Name']} by set code and collector number")
                 return self.get_card_by_set_and_number(
                     card['Edition_Code'].lower(),
                     card['Card_Number']
@@ -323,9 +349,10 @@ class ScryfallService:
             except requests.exceptions.RequestException:
                 logger.info(f"Couldn't find card by set and number, trying by name+set")
 
-        # Try by name and set if available
+        # Third priority: Try by name and set if available
         if card.get('Edition_Code'):
             try:
+                logger.info(f"Looking up {card['Name']} by name and set")
                 return self.get_card_by_name(
                     card['Name'],
                     card['Edition_Code'].lower()
@@ -333,7 +360,8 @@ class ScryfallService:
             except requests.exceptions.RequestException:
                 logger.info(f"Couldn't find card by name+set, trying by name only")
 
-        # Finally, try by name only
+        # Last resort: Try by name only
+        logger.info(f"Looking up {card['Name']} by name only")
         return self.get_card_by_name(card['Name'])
 
 # Create a singleton instance

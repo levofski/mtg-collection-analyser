@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.DS_Store
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -196,3 +197,4 @@ cython_debug/
 # Local card cache
 #  Local card cache is used by the Card API to store cached data for faster access.
 cache/
+
