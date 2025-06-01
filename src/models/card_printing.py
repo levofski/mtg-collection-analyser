@@ -16,7 +16,8 @@ class CardPrinting(db.Model):
 
     # Foreign key to CardInfo
     card_info_id = db.Column(db.Integer, db.ForeignKey('card_info.id'), nullable=False)
-    card_info = db.relationship("CardInfo", back_populates="printings")
+    card_info = db.relationship("CardInfo", back_populates="printings",
+                               foreign_keys=[card_info_id])
 
     # Fields from CSV import related to collection ownership
     Count = db.Column(db.Integer, nullable=False)

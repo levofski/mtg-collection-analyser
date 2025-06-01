@@ -30,8 +30,9 @@ class CardInfo(db.Model):
     _keywords = db.Column("keywords", db.Text, nullable=True)
     _extracted_data = db.Column("extracted_data", db.Text, nullable=True)
 
-    # Related models
-    printings = db.relationship("CardPrinting", back_populates="card_info", lazy="dynamic")
+    # Related models - use string for back_populates to avoid circular imports
+    printings = db.relationship("CardPrinting", back_populates="card_info", lazy="dynamic",
+                               foreign_keys="CardPrinting.card_info_id")
 
     # Track when each record was created/modified
     created_at = db.Column(db.DateTime, server_default=db.func.now())
