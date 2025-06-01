@@ -4,6 +4,7 @@ from typing import List, Dict, Any
 from werkzeug.datastructures import FileStorage
 
 from ..services.csv_importer import process_csv_data
+from ..services.card_analysis import analyze_card, analyze_all_cards
 from ..store.card_store import (
     add_cards_to_collection, get_all_cards, clear_collection,
     get_card_by_id, update_card, delete_card,
@@ -229,3 +230,40 @@ def get_card_info_route(card_info_id: int) -> FlaskResponse:
     if card_info:
         return jsonify(card_info.to_dict()), 200
     return jsonify({"message": f"Card info with ID {card_info_id} not found."}), 404
+
+@collection_bp.route('/card-infos/<int:card_info_id>/analyze', methods=['POST'])
+def analyze_card_info_route(card_info_id: int) -> FlaskResponse:
+    """
+    Analyzes a specific card's oracle text and extracts keywords and other data.
+
+    Args:
+        card_info_id: The ID of the card info to analyze.
+    """
+    analyzed_card, message = analyze_card(card_info_id)
+
+    if analyzed_card:
+        return jsonify({
+            "message": message,
+            "card_info": analyzed_card.to_dict()
+        }), 200
+
+    return jsonify({"message": message}), 404
+
+@collection_bp.route('/card-infos/analyze-all', methods=['POST'])
+def analyze_all_card_infos_route() -> FlaskResponse:
+    """
+    Analyzes all cards in the collection using NLP techniques.
+    """
+    successful, total, errors = analyze_all_cards()
+
+    response = {
+        "message": f"Analyzed {successful} out of {total} cards.",
+        "success_count": successful,
+        "total_count": total
+    }
+
+    if errors:
+        response["errors"] = errors
+
+    status_code = 200 if successful == total else 207  # 207 Multi-Status
+    return jsonify(response), status_code

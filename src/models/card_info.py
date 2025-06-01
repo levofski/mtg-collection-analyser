@@ -26,12 +26,46 @@ class CardInfo(db.Model):
     cmc = db.Column(db.Float, nullable=True)
     type_line = db.Column(db.String(255), nullable=True)
 
+    # Text analysis fields - stored as JSON strings
+    _keywords = db.Column("keywords", db.Text, nullable=True)
+    _extracted_data = db.Column("extracted_data", db.Text, nullable=True)
+
     # Related models
     printings = db.relationship("CardPrinting", back_populates="card_info", lazy="dynamic")
 
     # Track when each record was created/modified
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
+
+    @property
+    def keywords(self) -> Optional[List[str]]:
+        """Get list of keywords for this card."""
+        if self._keywords:
+            return json.loads(self._keywords)
+        return None
+
+    @keywords.setter
+    def keywords(self, value: Optional[List[str]]) -> None:
+        """Set keywords for this card."""
+        if value is not None:
+            self._keywords = json.dumps(value)
+        else:
+            self._keywords = None
+
+    @property
+    def extracted_data(self) -> Optional[Dict[str, Any]]:
+        """Get extracted data from text analysis."""
+        if self._extracted_data:
+            return json.loads(self._extracted_data)
+        return None
+
+    @extracted_data.setter
+    def extracted_data(self, value: Optional[Dict[str, Any]]) -> None:
+        """Set extracted data from text analysis."""
+        if value is not None:
+            self._extracted_data = json.dumps(value)
+        else:
+            self._extracted_data = None
 
     def __repr__(self) -> str:
         return f"<CardInfo(id={self.id}, name='{self.name}')>"
@@ -46,8 +80,13 @@ class CardInfo(db.Model):
             "mana_cost": self.mana_cost,
             "cmc": self.cmc,
             "type_line": self.type_line,
+            "keywords": self.keywords,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None
         }
+
+        # Add extracted data if available
+        if self.extracted_data:
+            data["extracted_data"] = self.extracted_data
 
         return {k: v for k, v in data.items() if v is not None}  # Return only non-None values

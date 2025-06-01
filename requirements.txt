@@ -3,3 +3,5 @@ requests
 marshmallow
 SQLAlchemy
 Flask-SQLAlchemy
+spacy
+networkx
