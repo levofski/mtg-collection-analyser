@@ -4,6 +4,7 @@ from flask.wrappers import Response as FlaskResponse
 from werkzeug.datastructures import FileStorage
 
 from ..services.csv_importer import process_csv_data
+from ..store.card_store import add_cards_to_collection, get_all_cards, clear_collection
 
 collection_bp = Blueprint('collection_bp', __name__, url_prefix='/collection')
 
@@ -28,9 +29,8 @@ def import_csv_route() -> FlaskResponse:
 
             response_data = {"message": message}
             if valid_cards is not None:
-                # For now, we just report the count.
-                # Later, this is where valid_cards would be passed to a storage service.
-                response_data["cards_successfully_validated"] = len(valid_cards)
+                add_cards_to_collection(valid_cards) # Store the valid cards
+                response_data["cards_added_to_collection"] = len(valid_cards)
                 # To see the actual card data in the response (can be verbose for large files):
                 # response_data["validated_cards_data"] = valid_cards
 
@@ -45,3 +45,19 @@ def import_csv_route() -> FlaskResponse:
             return jsonify({"message": f"An unexpected error occurred: {str(e)}", "validation_errors": []}), 500
     else:
         return jsonify({"message": "Invalid file type, please upload a CSV file.", "validation_errors": []}), 400
+
+@collection_bp.route('/cards', methods=['GET'])
+def get_collection_cards_route() -> FlaskResponse:
+    """
+    Retrieves all cards currently in the collection.
+    """
+    all_cards = get_all_cards()
+    return jsonify({"cards": all_cards, "count": len(all_cards)}), 200
+
+@collection_bp.route('/clear', methods=['POST']) # Using POST for a state-changing operation
+def clear_collection_route() -> FlaskResponse:
+    """
+    Clears all cards from the collection.
+    """
+    clear_collection()
+    return jsonify({"message": "Collection cleared successfully."}), 200
