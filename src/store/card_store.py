@@ -153,6 +153,7 @@ def enrich_card_with_scryfall_data(card_id: int) -> Tuple[Optional[Card], str]:
 def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
     """
     Enriches all cards in the collection with data from the Scryfall API.
+    Commits changes to the database after each successful card enrichment.
 
     Returns:
         A tuple containing:
@@ -188,21 +189,29 @@ def enrich_all_cards() -> Tuple[int, int, List[Dict[str, Any]]]:
             # Handle image URIs (using the property setter)
             card.image_uris = scryfall_data.get('image_uris')
 
-            successful += 1
+            # Commit changes immediately after each card
+            try:
+                db.session.commit()
+                successful += 1
+                logger.info(f"Successfully enriched card {card.id} ({card.Name})")
+            except SQLAlchemyError as db_err:
+                db.session.rollback()
+                error_msg = f"Database error when saving card {card.id}: {str(db_err)}"
+                errors.append({
+                    "card_id": card.id,
+                    "card_name": card.Name,
+                    "error": error_msg
+                })
+                logger.error(error_msg)
+
         except Exception as e:
+            # Rollback any pending changes for this card
+            db.session.rollback()
             errors.append({
                 "card_id": card.id,
                 "card_name": card.Name,
                 "error": str(e)
             })
             logger.error(f"Error enriching card {card.id} ({card.Name}): {str(e)}")
-
-    # Save all changes
-    try:
-        db.session.commit()
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        errors.append({"error": f"Database error: {str(e)}"})
-        logger.error(f"Database error when enriching cards: {str(e)}")
 
     return successful, total_cards, errors

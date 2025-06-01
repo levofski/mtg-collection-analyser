@@ -95,10 +95,12 @@ The Scryfall integration is implemented in the following files:
 - **Rate Limiting**: Implements rate limiting to stay within Scryfall's API guidelines
 - **Caching**: Caches responses to reduce redundant API calls
 - **Error Handling**: Gracefully handles API errors with retries for transient issues
+- **Progressive Commits**: Database changes are committed after each card enrichment to preserve progress in case of failures
 - **Lookup Strategy**: Tries to find the most precise match for a card:
-  1. First by set code + collector number
-  2. Then by exact name + set code
-  3. Finally by name only
+  1. First by Scryfall ID (preferred method)
+  2. Then by set code + collector number
+  3. Then by exact name + set code
+  4. Finally by name only
 
 ## Next Steps
 
