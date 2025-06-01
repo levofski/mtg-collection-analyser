@@ -47,7 +47,7 @@ A Python-based API for managing and analyzing a "Magic: The Gathering" card coll
 - **GET /collection/cards/{id}** - Get a specific card by ID
 - **PUT /collection/cards/{id}** - Update a specific card
 - **DELETE /collection/cards/{id}** - Delete a specific card
-- **POST /collection/clear** - Clear the entire collection
+- **DELETE /collection** - Clear the entire collection
 
 ### CSV Import
 

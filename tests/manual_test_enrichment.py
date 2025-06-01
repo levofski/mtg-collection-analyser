@@ -61,7 +61,7 @@ def import_cards() -> List[Dict[str, Any]]:
     csv_data = create_sample_csv()
 
     # First, clear the collection
-    response = requests.post(f"{BASE_URL}/collection/clear")
+    response = requests.delete(f"{BASE_URL}/collection")
     print(f"  Cleared collection: {response.status_code} - {response.json()['message']}")
 
     # Import the CSV file

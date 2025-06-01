@@ -114,10 +114,11 @@ def delete_card_route(card_id: int) -> FlaskResponse:
 
     return jsonify({"message": f"Card with ID {card_id} not found."}), 404
 
-@collection_bp.route('/clear', methods=['POST']) # Using POST for a state-changing operation
+@collection_bp.route('', methods=['DELETE'])
 def clear_collection_route() -> FlaskResponse:
     """
     Clears all cards from the collection.
+    Following REST principles, this uses DELETE method on the collection resource.
     """
     clear_collection()
     return jsonify({"message": "Collection cleared successfully."}), 200

@@ -53,7 +53,7 @@ Initial project setup and implementation of core features.
         *   `GET /collection/cards/<id>` - View a specific card.
         *   `PUT /collection/cards/<id>` - Update a specific card.
         *   `DELETE /collection/cards/<id>` - Delete a specific card.
-        *   `POST /collection/clear` - Clear the collection.
+        *   `DELETE /collection` - Clear the collection.
 *   Created documentation for the Scryfall API (`docs/scryfall-api-reference.md`):
     *   Documented key endpoints needed for our project
     *   Outlined best practices for API integration
@@ -86,7 +86,7 @@ Initial project setup and implementation of core features.
         *   `GET /collection/cards/<id>` - View a specific card.
         *   `PUT /collection/cards/<id>` - Update a specific card.
         *   `DELETE /collection/cards/<id>` - Delete a specific card.
-        *   `POST /collection/clear` - Clear the collection.
+        *   `DELETE /collection` - Clear the collection.
 *   Created documentation for the Scryfall API (`docs/scryfall-api-reference.md`):
     *   Documented key endpoints needed for our project
     *   Outlined best practices for API integration
