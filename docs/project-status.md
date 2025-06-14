@@ -109,21 +109,33 @@ Initial project setup and implementation of core features.
 
 ## Recent Updates
 
-*   **Implemented Card Text Analysis with NLP:**
-    *   Added spaCy to requirements.txt and set up language model for text processing.
-    *   Implemented `text_analysis.py` service with comprehensive keyword, action, and zone extraction.
-    *   Developed synergy detection algorithms to find relationships between cards based on card text.
-    *   Created demo scripts to showcase text analysis capabilities:
-        *   `standalone_text_analysis.py` for basic NLP abilities demonstration.
-        *   `synergy_detection_demo.py` for finding relationships between cards based on text.
-    *   Added functionality to store extracted keywords and data in the database.
-*   **Updated Database Schema:**
-    *   Split the original Card model into CardInfo and CardPrinting to better separate shared card data from collection-specific data.
-    *   Added new text analysis fields to CardInfo model to store extracted keywords and other data.
-    *   Updated database initialization script to work with new schema.
-*   **Added New API Endpoints:**
-    *   `/collection/card-infos/<id>/analyze` for analyzing individual cards.
-    *   `/collection/card-infos/analyze-all` for batch processing the entire collection.
+*   **Implemented Enhanced Card Text Analysis with Comprehensive NLP:**
+    *   Significantly expanded spaCy-based text processing with 100+ MTG keywords and abilities.
+    *   Added comprehensive creature type library (200+ types) for advanced tribal synergy detection.
+    *   Implemented planeswalker types, artifact subtypes, and enchantment subtypes analysis.
+    *   Created advanced mana cost parsing with color intensity and curve analysis.
+    *   Developed sophisticated archetype detection (aggro, control, combo, graveyard, etc.).
+    *   Added combo potential detection for infinite combos and engine pieces.
+*   **Enhanced Synergy Detection with Multi-Dimensional Scoring:**
+    *   Implemented weighted scoring system with 8 synergy dimensions.
+    *   Created comprehensive synergy calculation with detailed breakdown and explanations.
+    *   Added collection-wide synergy analysis with configurable thresholds.
+    *   Developed tribal, color, keyword, archetype, combo, type, mana curve, and format synergies.
+    *   Implemented complementary keyword detection (e.g., flying + reach, first strike + deathtouch).
+*   **Created Enhanced Demo Scripts:**
+    *   Built comprehensive `enhanced_synergy_demo.py` showcasing all new capabilities.
+    *   Demonstrates tribal synergies (Goblin Guide + Goblin King: 45.0 score).
+    *   Shows combo detection (Grindstone + Painter's Servant: 26.1 score).
+    *   Illustrates archetype synergies (Entomb + Reanimate: 31.6 score).
+    *   Provides collection-wide analysis with detailed scoring breakdowns.
+*   **Updated Database Integration:**
+    *   Enhanced `card_analysis.py` to use Scryfall data in analysis.
+    *   Improved `analyze_card_text()` to accept both oracle text and card metadata.
+    *   Updated text analysis fields to store comprehensive extracted data.
+*   **Enhanced Documentation:**
+    *   Updated `text-analysis-implementation.md` with comprehensive feature overview.
+    *   Documented all new synergy types and scoring mechanisms.
+    *   Provided detailed explanations of archetype and combo detection.
 
 ## Next Steps (Immediate)
 

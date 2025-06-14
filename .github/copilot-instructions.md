@@ -1,6 +1,7 @@
 ## Project Context
 
 Refer to the [Project Status](../docs/project-status.md) file for detailed context on the project's progress and known issues.
+As we are making changes, always keep the relevant documentation and context files up-to-date.
 
 ## Code Style
 

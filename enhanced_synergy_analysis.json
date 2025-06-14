@@ -1,0 +1,1921 @@
+[
+  {
+    "name": "Lightning Bolt",
+    "oracle_text": "Lightning Bolt deals 3 damage to any target.",
+    "card_data": {
+      "mana_cost": "{R}",
+      "cmc": 1.0,
+      "type_line": "Instant",
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "keywords": [],
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal",
+        "pauper": "legal"
+      },
+      "rarity": "common"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [],
+      "zones": [],
+      "mana_references": [],
+      "counters": [
+        "age"
+      ],
+      "noun_phrases": [
+        "Lightning Bolt",
+        "3 damage",
+        "any target"
+      ],
+      "named_entities": [
+        {
+          "text": "3",
+          "type": "CARDINAL"
+        }
+      ],
+      "raw_tokens": [
+        "Lightning",
+        "Bolt",
+        "deals",
+        "3",
+        "damage",
+        "to",
+        "any",
+        "target"
+      ],
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "card_types": [
+        "instant"
+      ],
+      "creature_types": [],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 1,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 1,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": null,
+        "toughness": null,
+        "power_numeric": 0,
+        "toughness_numeric": 0
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander",
+        "pauper"
+      ],
+      "rarity": "common",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [],
+        "color_synergy": {
+          "colors": [
+            "R"
+          ],
+          "color_identity": [
+            "R"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 1,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "instant"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [],
+        "combo_potential": [],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander",
+          "pauper"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Goblin Guide",
+    "oracle_text": "Haste\nWhenever Goblin Guide attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+    "card_data": {
+      "mana_cost": "{R}",
+      "cmc": 1.0,
+      "type_line": "Creature — Goblin Berserker Warrior",
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "keywords": [
+        "Haste"
+      ],
+      "power": "2",
+      "toughness": "2",
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [
+        "haste"
+      ],
+      "actions": [
+        "attacks",
+        "end",
+        "haste",
+        "play",
+        "reveal"
+      ],
+      "zones": [
+        "hand",
+        "library"
+      ],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "Haste",
+        "Whenever Goblin Guide attacks",
+        "player",
+        "the top card",
+        "their library",
+        "it",
+        "a land card",
+        "that player",
+        "it",
+        "their hand"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "Haste",
+        "Whenever",
+        "Goblin",
+        "Guide",
+        "attacks",
+        "defending",
+        "player",
+        "reveals",
+        "the",
+        "top",
+        "card",
+        "of",
+        "their",
+        "library",
+        "If",
+        "it",
+        "'s",
+        "a",
+        "land",
+        "card",
+        "that",
+        "player",
+        "puts",
+        "it",
+        "into",
+        "their",
+        "hand"
+      ],
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "card_types": [
+        "creature"
+      ],
+      "creature_types": [
+        "goblin",
+        "warrior",
+        "berserker"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 1,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 1,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "2",
+        "toughness": "2",
+        "power_numeric": 2,
+        "toughness_numeric": 2
+      },
+      "scryfall_keywords": [
+        "haste"
+      ],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "goblin",
+          "warrior",
+          "berserker"
+        ],
+        "color_synergy": {
+          "colors": [
+            "R"
+          ],
+          "color_identity": [
+            "R"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 1,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [
+          "haste"
+        ],
+        "type_synergy": {
+          "card_types": [
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "aggro",
+          "lands"
+        ],
+        "combo_potential": [
+          "card_draw"
+        ],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Goblin King",
+    "oracle_text": "Other Goblin creatures get +1/+1 and have mountainwalk. (They can't be blocked as long as defending player controls a Mountain.)",
+    "card_data": {
+      "mana_cost": "{1}{R}{R}",
+      "cmc": 3.0,
+      "type_line": "Creature — Goblin",
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "keywords": [],
+      "power": "2",
+      "toughness": "2",
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [
+        "end",
+        "play"
+      ],
+      "zones": [],
+      "mana_references": [],
+      "counters": [
+        "+1/+1"
+      ],
+      "noun_phrases": [
+        "Other Goblin creatures",
+        "+1/+1",
+        "They",
+        "player",
+        "a Mountain"
+      ],
+      "named_entities": [
+        {
+          "text": "Mountain.",
+          "type": "GPE"
+        }
+      ],
+      "raw_tokens": [
+        "Other",
+        "Goblin",
+        "creatures",
+        "get",
+        "+1/+1",
+        "and",
+        "have",
+        "mountainwalk",
+        "They",
+        "ca",
+        "n't",
+        "be",
+        "blocked",
+        "as",
+        "long",
+        "as",
+        "defending",
+        "player",
+        "controls",
+        "a",
+        "Mountain"
+      ],
+      "colors": [
+        "R"
+      ],
+      "color_identity": [
+        "R"
+      ],
+      "card_types": [
+        "creature"
+      ],
+      "creature_types": [
+        "goblin"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 3,
+        "colored_symbols": 2,
+        "generic_mana": 1,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 2,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "2",
+        "toughness": "2",
+        "power_numeric": 2,
+        "toughness_numeric": 2
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 3.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "goblin"
+        ],
+        "color_synergy": {
+          "colors": [
+            "R"
+          ],
+          "color_identity": [
+            "R"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 3.0,
+          "colored_symbols": 2,
+          "generic_mana": 1,
+          "mana_intensiveness": 0.6666666666666666
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [],
+        "combo_potential": [],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Llanowar Elves",
+    "oracle_text": "{T}: Add {G}.",
+    "card_data": {
+      "mana_cost": "{G}",
+      "cmc": 1.0,
+      "type_line": "Creature — Elf Druid",
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "keywords": [],
+      "power": "1",
+      "toughness": "1",
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal",
+        "pauper": "legal"
+      },
+      "rarity": "common"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [],
+      "zones": [],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "{T",
+        "G"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "T",
+        "Add",
+        "G"
+      ],
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "card_types": [
+        "creature"
+      ],
+      "creature_types": [
+        "elf",
+        "druid"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 1,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 0,
+        "green": 1,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "1",
+        "toughness": "1",
+        "power_numeric": 1,
+        "toughness_numeric": 1
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander",
+        "pauper"
+      ],
+      "rarity": "common",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "elf",
+          "druid"
+        ],
+        "color_synergy": {
+          "colors": [
+            "G"
+          ],
+          "color_identity": [
+            "G"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 1,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [],
+        "combo_potential": [
+          "mana_generation"
+        ],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander",
+          "pauper"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Elvish Archdruid",
+    "oracle_text": "Other Elf creatures you control get +1/+1.\n{T}: Add {G} for each Elf you control.",
+    "card_data": {
+      "mana_cost": "{1}{G}{G}",
+      "cmc": 3.0,
+      "type_line": "Creature — Elf Druid",
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "keywords": [],
+      "power": "2",
+      "toughness": "2",
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [],
+      "zones": [],
+      "mana_references": [],
+      "counters": [
+        "+1/+1"
+      ],
+      "noun_phrases": [
+        "Other Elf creatures",
+        "you",
+        "{T",
+        "G",
+        "each Elf",
+        "you"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "Other",
+        "Elf",
+        "creatures",
+        "you",
+        "control",
+        "get",
+        "+1/+1",
+        "T",
+        "Add",
+        "G",
+        "for",
+        "each",
+        "Elf",
+        "you",
+        "control"
+      ],
+      "colors": [
+        "G"
+      ],
+      "color_identity": [
+        "G"
+      ],
+      "card_types": [
+        "creature"
+      ],
+      "creature_types": [
+        "elf",
+        "druid"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 3,
+        "colored_symbols": 2,
+        "generic_mana": 1,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 0,
+        "green": 2,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "2",
+        "toughness": "2",
+        "power_numeric": 2,
+        "toughness_numeric": 2
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 3.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "elf",
+          "druid"
+        ],
+        "color_synergy": {
+          "colors": [
+            "G"
+          ],
+          "color_identity": [
+            "G"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 3.0,
+          "colored_symbols": 2,
+          "generic_mana": 1,
+          "mana_intensiveness": 0.6666666666666666
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [],
+        "combo_potential": [
+          "mana_generation"
+        ],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Counterspell",
+    "oracle_text": "Counter target spell.",
+    "card_data": {
+      "mana_cost": "{U}{U}",
+      "cmc": 2.0,
+      "type_line": "Instant",
+      "colors": [
+        "U"
+      ],
+      "color_identity": [
+        "U"
+      ],
+      "keywords": [],
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal",
+        "pauper": "legal"
+      },
+      "rarity": "common"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [
+        "counter"
+      ],
+      "zones": [],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "Counter target spell"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "Counter",
+        "target",
+        "spell"
+      ],
+      "colors": [
+        "U"
+      ],
+      "color_identity": [
+        "U"
+      ],
+      "card_types": [
+        "instant"
+      ],
+      "creature_types": [],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 2,
+        "colored_symbols": 2,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 2,
+        "black": 0,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": null,
+        "toughness": null,
+        "power_numeric": 0,
+        "toughness_numeric": 0
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander",
+        "pauper"
+      ],
+      "rarity": "common",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 2.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [],
+        "color_synergy": {
+          "colors": [
+            "U"
+          ],
+          "color_identity": [
+            "U"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 2.0,
+          "colored_symbols": 2,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "instant"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "control"
+        ],
+        "combo_potential": [],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander",
+          "pauper"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Snapcaster Mage",
+    "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.",
+    "card_data": {
+      "mana_cost": "{1}{U}",
+      "cmc": 2.0,
+      "type_line": "Creature — Human Wizard",
+      "colors": [
+        "U"
+      ],
+      "color_identity": [
+        "U"
+      ],
+      "keywords": [
+        "Flash",
+        "Flashback"
+      ],
+      "power": "2",
+      "toughness": "1",
+      "legalities": {
+        "modern": "legal",
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [
+        "flash",
+        "flashback"
+      ],
+      "actions": [
+        "cast",
+        "end",
+        "enters",
+        "until"
+      ],
+      "zones": [
+        "battlefield",
+        "graveyard"
+      ],
+      "mana_references": [],
+      "counters": [
+        "age"
+      ],
+      "noun_phrases": [
+        "Flash",
+        "Snapcaster Mage",
+        "the battlefield",
+        "instant or sorcery card",
+        "your graveyard gains",
+        "end",
+        "turn",
+        "The flashback cost",
+        "its mana cost"
+      ],
+      "named_entities": [
+        {
+          "text": "Snapcaster Mage",
+          "type": "PERSON"
+        }
+      ],
+      "raw_tokens": [
+        "Flash",
+        "When",
+        "Snapcaster",
+        "Mage",
+        "enters",
+        "the",
+        "battlefield",
+        "target",
+        "instant",
+        "or",
+        "sorcery",
+        "card",
+        "in",
+        "your",
+        "graveyard",
+        "gains",
+        "flashback",
+        "until",
+        "end",
+        "of",
+        "turn",
+        "The",
+        "flashback",
+        "cost",
+        "is",
+        "equal",
+        "to",
+        "its",
+        "mana",
+        "cost"
+      ],
+      "colors": [
+        "U"
+      ],
+      "color_identity": [
+        "U"
+      ],
+      "card_types": [
+        "creature"
+      ],
+      "creature_types": [
+        "human",
+        "wizard"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 2,
+        "colored_symbols": 1,
+        "generic_mana": 1,
+        "white": 0,
+        "blue": 1,
+        "black": 0,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "2",
+        "toughness": "1",
+        "power_numeric": 2,
+        "toughness_numeric": 1
+      },
+      "scryfall_keywords": [
+        "flash",
+        "flashback"
+      ],
+      "legal_formats": [
+        "modern",
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 2.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "human",
+          "wizard"
+        ],
+        "color_synergy": {
+          "colors": [
+            "U"
+          ],
+          "color_identity": [
+            "U"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 2.0,
+          "colored_symbols": 1,
+          "generic_mana": 1,
+          "mana_intensiveness": 0.5
+        },
+        "keyword_synergy": [
+          "flashback",
+          "flash"
+        ],
+        "type_synergy": {
+          "card_types": [
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "graveyard",
+          "spells",
+          "lifegain"
+        ],
+        "combo_potential": [
+          "mana_generation",
+          "card_draw"
+        ],
+        "format_synergy": [
+          "modern",
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Grindstone",
+    "oracle_text": "{3}, {T}: Target player mills two cards. If two cards that share a color were milled this way, repeat this process.",
+    "card_data": {
+      "mana_cost": "{1}",
+      "cmc": 1.0,
+      "type_line": "Artifact",
+      "colors": [],
+      "color_identity": [],
+      "keywords": [],
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [
+        "mill",
+        "play"
+      ],
+      "zones": [],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "{3}, {T",
+        "two cards",
+        "two cards",
+        "that",
+        "a color",
+        "this process"
+      ],
+      "named_entities": [
+        {
+          "text": "3",
+          "type": "CARDINAL"
+        },
+        {
+          "text": "Target",
+          "type": "ORG"
+        },
+        {
+          "text": "two",
+          "type": "CARDINAL"
+        },
+        {
+          "text": "two",
+          "type": "CARDINAL"
+        }
+      ],
+      "raw_tokens": [
+        "3",
+        "T",
+        "Target",
+        "player",
+        "mills",
+        "two",
+        "cards",
+        "If",
+        "two",
+        "cards",
+        "that",
+        "share",
+        "a",
+        "color",
+        "were",
+        "milled",
+        "this",
+        "way",
+        "repeat",
+        "this",
+        "process"
+      ],
+      "colors": [],
+      "color_identity": [],
+      "card_types": [
+        "artifact"
+      ],
+      "creature_types": [],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 0,
+        "generic_mana": 1,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": null,
+        "toughness": null,
+        "power_numeric": 0,
+        "toughness_numeric": 0
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": true,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": true,
+      "synergy_vectors": {
+        "tribal": [],
+        "color_synergy": {
+          "colors": [],
+          "color_identity": [],
+          "is_multicolored": false,
+          "is_colorless": true,
+          "color_count": 0
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 0,
+          "generic_mana": 1,
+          "mana_intensiveness": 0.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "artifact"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "graveyard",
+          "artifacts"
+        ],
+        "combo_potential": [
+          "card_draw"
+        ],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Painter's Servant",
+    "oracle_text": "As Painter's Servant enters the battlefield, choose a color.\nAll cards that aren't on the battlefield, spells, and permanents are the chosen color in addition to their other colors.",
+    "card_data": {
+      "mana_cost": "{2}",
+      "cmc": 2.0,
+      "type_line": "Artifact Creature — Scarecrow",
+      "colors": [],
+      "color_identity": [],
+      "keywords": [],
+      "power": "1",
+      "toughness": "3",
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [
+        "enters"
+      ],
+      "zones": [
+        "battlefield"
+      ],
+      "mana_references": [],
+      "counters": [
+        "pain"
+      ],
+      "noun_phrases": [
+        "Painter's Servant",
+        "the battlefield",
+        "a color",
+        "All cards",
+        "that",
+        "the battlefield",
+        "spells",
+        "permanents",
+        "the chosen color",
+        "addition",
+        "their other colors"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "As",
+        "Painter",
+        "'s",
+        "Servant",
+        "enters",
+        "the",
+        "battlefield",
+        "choose",
+        "a",
+        "color",
+        "All",
+        "cards",
+        "that",
+        "are",
+        "n't",
+        "on",
+        "the",
+        "battlefield",
+        "spells",
+        "and",
+        "permanents",
+        "are",
+        "the",
+        "chosen",
+        "color",
+        "in",
+        "addition",
+        "to",
+        "their",
+        "other",
+        "colors"
+      ],
+      "colors": [],
+      "color_identity": [],
+      "card_types": [
+        "artifact",
+        "creature"
+      ],
+      "creature_types": [
+        "scarecrow"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 0,
+        "generic_mana": 2,
+        "white": 0,
+        "blue": 0,
+        "black": 0,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "1",
+        "toughness": "3",
+        "power_numeric": 1,
+        "toughness_numeric": 3
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 2.0,
+      "is_legendary": false,
+      "is_artifact": true,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": true,
+      "synergy_vectors": {
+        "tribal": [
+          "scarecrow"
+        ],
+        "color_synergy": {
+          "colors": [],
+          "color_identity": [],
+          "is_multicolored": false,
+          "is_colorless": true,
+          "color_count": 0
+        },
+        "mana_curve": {
+          "cmc": 2.0,
+          "colored_symbols": 0,
+          "generic_mana": 2,
+          "mana_intensiveness": 0.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "artifact",
+            "creature"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "artifacts"
+        ],
+        "combo_potential": [
+          "mana_generation",
+          "card_draw"
+        ],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Entomb",
+    "oracle_text": "Search your library for a card and put that card into your graveyard. Then shuffle your library.",
+    "card_data": {
+      "mana_cost": "{B}",
+      "cmc": 1.0,
+      "type_line": "Instant",
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "keywords": [],
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "rare"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [
+        "search",
+        "shuffle"
+      ],
+      "zones": [
+        "graveyard",
+        "library"
+      ],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "your library",
+        "a card",
+        "that card",
+        "your graveyard",
+        "your library"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "Search",
+        "your",
+        "library",
+        "for",
+        "a",
+        "card",
+        "and",
+        "put",
+        "that",
+        "card",
+        "into",
+        "your",
+        "graveyard",
+        "Then",
+        "shuffle",
+        "your",
+        "library"
+      ],
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "card_types": [
+        "instant"
+      ],
+      "creature_types": [],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 1,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 0,
+        "black": 1,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": null,
+        "toughness": null,
+        "power_numeric": 0,
+        "toughness_numeric": 0
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "rare",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [],
+        "color_synergy": {
+          "colors": [
+            "B"
+          ],
+          "color_identity": [
+            "B"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 1,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "instant"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "graveyard"
+        ],
+        "combo_potential": [
+          "tutoring",
+          "card_draw"
+        ],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Reanimate",
+    "oracle_text": "Put target creature card from a graveyard onto the battlefield under your control. You lose life equal to its mana value.",
+    "card_data": {
+      "mana_cost": "{B}",
+      "cmc": 1.0,
+      "type_line": "Sorcery",
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "keywords": [],
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "uncommon"
+    },
+    "analysis": {
+      "keywords": [],
+      "actions": [],
+      "zones": [
+        "battlefield",
+        "graveyard"
+      ],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "target creature card",
+        "a graveyard",
+        "the battlefield",
+        "your control",
+        "You",
+        "life",
+        "its mana value"
+      ],
+      "named_entities": [],
+      "raw_tokens": [
+        "Put",
+        "target",
+        "creature",
+        "card",
+        "from",
+        "a",
+        "graveyard",
+        "onto",
+        "the",
+        "battlefield",
+        "under",
+        "your",
+        "control",
+        "You",
+        "lose",
+        "life",
+        "equal",
+        "to",
+        "its",
+        "mana",
+        "value"
+      ],
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "card_types": [
+        "sorcery"
+      ],
+      "creature_types": [],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 1,
+        "colored_symbols": 1,
+        "generic_mana": 0,
+        "white": 0,
+        "blue": 0,
+        "black": 1,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": null,
+        "toughness": null,
+        "power_numeric": 0,
+        "toughness_numeric": 0
+      },
+      "scryfall_keywords": [],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "uncommon",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 1.0,
+      "is_legendary": false,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [],
+        "color_synergy": {
+          "colors": [
+            "B"
+          ],
+          "color_identity": [
+            "B"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 1.0,
+          "colored_symbols": 1,
+          "generic_mana": 0,
+          "mana_intensiveness": 1.0
+        },
+        "keyword_synergy": [],
+        "type_synergy": {
+          "card_types": [
+            "sorcery"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": false
+        },
+        "archetype": [
+          "graveyard"
+        ],
+        "combo_potential": [
+          "mana_generation",
+          "card_draw"
+        ],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  },
+  {
+    "name": "Griselbrand",
+    "oracle_text": "Flying, lifelink\nPay 7 life: Draw seven cards. Activate only once each turn.",
+    "card_data": {
+      "mana_cost": "{4}{B}{B}{B}{B}",
+      "cmc": 8.0,
+      "type_line": "Legendary Creature — Demon",
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "keywords": [
+        "Flying",
+        "Lifelink"
+      ],
+      "power": "7",
+      "toughness": "7",
+      "legalities": {
+        "legacy": "legal",
+        "vintage": "legal",
+        "commander": "legal"
+      },
+      "rarity": "mythic"
+    },
+    "analysis": {
+      "keywords": [
+        "flying",
+        "lifelink"
+      ],
+      "actions": [
+        "activate",
+        "draw"
+      ],
+      "zones": [],
+      "mana_references": [],
+      "counters": [],
+      "noun_phrases": [
+        "Flying, lifelink\nPay 7 life",
+        "seven cards",
+        "only once each turn"
+      ],
+      "named_entities": [
+        {
+          "text": "7",
+          "type": "CARDINAL"
+        },
+        {
+          "text": "seven",
+          "type": "CARDINAL"
+        }
+      ],
+      "raw_tokens": [
+        "Flying",
+        "lifelink",
+        "Pay",
+        "7",
+        "life",
+        "Draw",
+        "seven",
+        "cards",
+        "Activate",
+        "only",
+        "once",
+        "each",
+        "turn"
+      ],
+      "colors": [
+        "B"
+      ],
+      "color_identity": [
+        "B"
+      ],
+      "card_types": [
+        "creature",
+        "legendary"
+      ],
+      "creature_types": [
+        "demon"
+      ],
+      "planeswalker_types": [],
+      "artifact_subtypes": [],
+      "enchantment_subtypes": [],
+      "mana_cost_info": {
+        "total_symbols": 5,
+        "colored_symbols": 4,
+        "generic_mana": 4,
+        "white": 0,
+        "blue": 0,
+        "black": 4,
+        "red": 0,
+        "green": 0,
+        "colorless": 0,
+        "hybrid": 0,
+        "phyrexian": 0,
+        "x_cost": 0
+      },
+      "power_toughness": {
+        "power": "7",
+        "toughness": "7",
+        "power_numeric": 7,
+        "toughness_numeric": 7
+      },
+      "scryfall_keywords": [
+        "flying",
+        "lifelink"
+      ],
+      "legal_formats": [
+        "legacy",
+        "vintage",
+        "commander"
+      ],
+      "rarity": "mythic",
+      "set_code": "",
+      "set_name": "",
+      "cmc": 8.0,
+      "is_legendary": true,
+      "is_artifact": false,
+      "is_enchantment": false,
+      "is_multicolored": false,
+      "is_colorless": false,
+      "synergy_vectors": {
+        "tribal": [
+          "demon"
+        ],
+        "color_synergy": {
+          "colors": [
+            "B"
+          ],
+          "color_identity": [
+            "B"
+          ],
+          "is_multicolored": false,
+          "is_colorless": false,
+          "color_count": 1
+        },
+        "mana_curve": {
+          "cmc": 8.0,
+          "colored_symbols": 4,
+          "generic_mana": 4,
+          "mana_intensiveness": 0.5
+        },
+        "keyword_synergy": [
+          "flying",
+          "lifelink"
+        ],
+        "type_synergy": {
+          "card_types": [
+            "creature",
+            "legendary"
+          ],
+          "artifact_subtypes": [],
+          "enchantment_subtypes": [],
+          "is_legendary": true
+        },
+        "archetype": [
+          "lifegain"
+        ],
+        "combo_potential": [
+          "card_draw"
+        ],
+        "format_synergy": [
+          "legacy",
+          "vintage",
+          "commander"
+        ]
+      }
+    }
+  }
+]

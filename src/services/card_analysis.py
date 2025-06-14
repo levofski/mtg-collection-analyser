@@ -34,8 +34,25 @@ def analyze_card(card_info_id: int) -> Tuple[Optional[CardInfo], str]:
         return card_info, "Card has no oracle text to analyze."
 
     try:
-        # Analyze the card text
-        analysis_result = analyze_card_text(card_info.oracle_text)
+        # Get Scryfall data if available
+        scryfall_data = {}
+
+        # Check if card has enriched data from Scryfall
+        if hasattr(card_info, 'printings') and card_info.printings.count() > 0:
+            # Get the first printing to check for Scryfall data
+            printing = card_info.printings.first()
+            if printing and hasattr(printing, 'scryfall_id'):
+                # Build Scryfall data from card_info fields
+                scryfall_data = {
+                    "oracle_text": card_info.oracle_text,
+                    "mana_cost": card_info.mana_cost,
+                    "cmc": card_info.cmc,
+                    "type_line": card_info.type_line,
+                    # Add more fields as they become available in the database
+                }
+
+        # Analyze the card text with additional card data
+        analysis_result = analyze_card_text(card_info.oracle_text, scryfall_data)
 
         # Extract keywords from the analysis result
         keywords = analysis_result.get("keywords", [])
