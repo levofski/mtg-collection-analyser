@@ -267,3 +267,103 @@ def analyze_all_card_infos_route() -> FlaskResponse:
 
     status_code = 200 if successful == total else 207  # 207 Multi-Status
     return jsonify(response), status_code
+
+@collection_bp.route('/cards/<int:card1_id>/synergy/<int:card2_id>', methods=['GET'])
+def get_card_synergy_route(card1_id: int, card2_id: int) -> FlaskResponse:
+    """
+    Calculate synergy score between two specific cards.
+    """
+    from src.services.text_analysis import calculate_synergy_score
+
+    card1 = CardInfo.query.get(card1_id)
+    card2 = CardInfo.query.get(card2_id)
+
+    if not card1:
+        return jsonify({"error": f"Card with ID {card1_id} not found"}), 404
+    if not card2:
+        return jsonify({"error": f"Card with ID {card2_id} not found"}), 404
+
+    # Calculate synergy
+    synergy_result = calculate_synergy_score(
+        card1.extracted_data or {},
+        card2.extracted_data or {}
+    )
+
+    response = {
+        "card1": {
+            "id": card1.id,
+            "name": card1.name,
+            "type_line": card1.type_line
+        },
+        "card2": {
+            "id": card2.id,
+            "name": card2.name,
+            "type_line": card2.type_line
+        },
+        "synergy": synergy_result
+    }
+
+    return jsonify(response), 200
+
+@collection_bp.route('/cards/<int:card_id>/synergistic-partners', methods=['GET'])
+def find_synergistic_partners_route(card_id: int) -> FlaskResponse:
+    """
+    Find cards that synergize well with the specified card.
+    """
+    from src.services.text_analysis import calculate_synergy_score
+
+    target_card = CardInfo.query.get(card_id)
+    if not target_card:
+        return jsonify({"error": f"Card with ID {card_id} not found"}), 404
+
+    if not target_card.extracted_data:
+        return jsonify({"error": "Card has not been analyzed yet"}), 400
+
+    # Get query parameters
+    min_score = float(request.args.get('min_score', 10.0))
+    limit = int(request.args.get('limit', 20))
+
+    # Find synergistic cards
+    all_cards = CardInfo.query.filter(
+        CardInfo._extracted_data.isnot(None),
+        CardInfo.id != card_id
+    ).limit(500).all()
+
+    synergistic_cards = []
+
+    for card in all_cards:
+        synergy_result = calculate_synergy_score(
+            target_card.extracted_data,
+            card.extracted_data or {}
+        )
+
+        score = synergy_result.get('total_score', 0)
+        if score >= min_score:
+            synergistic_cards.append({
+                "card": {
+                    "id": card.id,
+                    "name": card.name,
+                    "type_line": card.type_line
+                },
+                "synergy_score": score,
+                "synergy_details": synergy_result
+            })
+
+    # Sort by score (highest first)
+    synergistic_cards.sort(key=lambda x: x["synergy_score"], reverse=True)
+
+    response = {
+        "target_card": {
+            "id": target_card.id,
+            "name": target_card.name,
+            "type_line": target_card.type_line
+        },
+        "synergistic_partners": synergistic_cards[:limit],
+        "total_found": len(synergistic_cards),
+        "parameters": {
+            "min_score": min_score,
+            "limit": limit
+        }
+    }
+
+    return jsonify(response), 200

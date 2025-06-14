@@ -19,7 +19,7 @@ from main import create_app
 def show_collection_stats():
     """Show current collection analysis statistics."""
     total_cards = CardInfo.query.count()
-    analyzed_cards = CardInfo.query.filter(CardInfo.extracted_data.isnot(None)).count()
+    analyzed_cards = CardInfo.query.filter(CardInfo._extracted_data.isnot(None)).count()
 
     print(f"📊 Collection Statistics:")
     print(f"  Total cards: {total_cards}")
@@ -94,7 +94,7 @@ def update_collection_synergy_data():
 
             # Show a quick example if we have analyzed cards
             try:
-                sample_card = CardInfo.query.filter(CardInfo.extracted_data.isnot(None)).first()
+                sample_card = CardInfo.query.filter(CardInfo._extracted_data.isnot(None)).first()
                 if sample_card and sample_card.extracted_data:
                     data = sample_card.extracted_data
                     print(f"\n📋 Example analysis for '{sample_card.name}':")
