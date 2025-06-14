@@ -71,7 +71,7 @@ synergies = find_synergy_candidates(card_text, collection_keywords)
 ### Using the API Endpoints
 
 - `POST /collection/card-infos/<id>/analyze`: Analyze a specific card
-- `POST /collection/card-infos/analyze-all`: Analyze all cards in the collection
+- `POST /collection/analyze-all`: Analyze all cards in the collection
 
 ## Demo Scripts
 

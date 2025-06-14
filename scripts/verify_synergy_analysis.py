@@ -189,7 +189,7 @@ def main():
             print("Run the synergy update first:")
             print("  python scripts/update_collection_synergies.py")
             print("  OR")
-            print("  curl -X POST http://localhost:5000/collection/card-infos/analyze-all")
+            print("  curl -X POST http://localhost:5000/collection/analyze-all")
             return
 
         # Show sample analysis

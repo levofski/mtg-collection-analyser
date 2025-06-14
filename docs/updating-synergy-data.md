@@ -13,7 +13,7 @@ The fastest way to update all your cards with enhanced synergy analysis:
 python main.py
 
 # Then in another terminal, run:
-curl -X POST http://localhost:5000/collection/card-infos/analyze-all
+curl -X POST http://localhost:5000/collection/analyze-all
 ```
 
 **What this does:**
@@ -314,7 +314,7 @@ with app.app_context():
 python main.py
 
 # 2. Update all synergy data (in another terminal)
-curl -X POST http://localhost:5000/collection/card-infos/analyze-all
+curl -X POST http://localhost:5000/collection/analyze-all
 
 # 3. Verify results
 curl http://localhost:5000/collection/card-infos | jq '.card_infos[0].extracted_data'

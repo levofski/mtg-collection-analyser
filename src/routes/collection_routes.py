@@ -249,7 +249,7 @@ def analyze_card_info_route(card_info_id: int) -> FlaskResponse:
 
     return jsonify({"message": message}), 404
 
-@collection_bp.route('/card-infos/analyze-all', methods=['POST'])
+@collection_bp.route('/analyze-all', methods=['POST'])
 def analyze_all_card_infos_route() -> FlaskResponse:
     """
     Analyzes all cards in the collection using NLP techniques.

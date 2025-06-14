@@ -90,7 +90,7 @@ Key additions:
 ## API Endpoints
 
 - **`/collection/card-infos/<id>/analyze`**: Analyzes a specific card
-- **`/collection/card-infos/analyze-all`**: Analyzes all cards in the collection
+- **`/collection/analyze-all`**: Analyzes all cards in the collection
 
 ## Results
 
